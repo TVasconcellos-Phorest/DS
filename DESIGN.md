@@ -135,20 +135,22 @@ Notes:
 Phorest's component vocabulary, mirrored from the in-app styleguide. Components are exposed through a `Ui::` namespace internally; what matters here is the *visual contract*.
 
 ### Buttons
-- **Primary** — solid amber (`bg-primary` text-black), used once per view as the dominant action. Rounded `rounded-md`. Height `h-9` to `h-10`.
-- **Secondary** — white background, `border-gray-light`, `text-primary`. Same height/padding as primary.
+- **Stroke system** — **Primary** and **Secondary** carry a **1px `#111827` (ink) stroke on all four sides PLUS a thicker 2px stroke on the bottom edge**. On press, the bottom edge collapses to 1px and the button nudges 1px down. **Danger** and **Disabled** are completely flat — no stroke, no rail.
+- **Primary** — solid amber (`bg-primary` text-black), used once per view as the dominant action. Stroke system as above. Hover darkens to `bg-primary-dark`. Radius `rounded` (4px, the control radius — not `rounded-md`).
+- **Secondary** — white background, 1px ink stroke + 2px bottom rail, `text-primary`. Same height/padding as primary. Hover darkens to a visibly grey `bg-gray-light` (`#E5E7EB`) — not a near-white tint.
 - **Tertiary** — text-only, `text-primary-darker` or `text-info-dark` for links inside content.
-- **Danger** — solid red (`bg-danger-dark`, white text) for destructive confirmations.
-- **Disabled** — `bg-gray-light text-primary-lightest`, no hover, `cursor-not-allowed`.
+- **Danger** — solid red (`bg-danger-dark`, white text) for destructive confirmations. Flat — no stroke.
+- **Disabled** — `bg-gray-light text-primary-lightest`, no hover, no stroke, `cursor-not-allowed`.
 - **Loading** — preserve width, swap label for inline spinner (Tailwind `animate-spin`).
-- **Sizes** — sm, md (default), lg. Buttons inside dense tables drop to sm.
-- **Button groups** — segmented controls share a border; selected segment uses `bg-primary` with `text-black`.
+- **Focus** — 3px amber halo outside the stroke (`box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.45)`). Always visible on keyboard.
+- **Sizes** — Phorest ships a **single button size**: `h-10` (40px tall, 18px horizontal padding, `text-sm`/`text-base`). There is no `sm` or `md` variant in the product.
+- **Button groups** — segmented controls share the same 1px ink stroke + 2px bottom rail as buttons. Selected segment uses `bg-primary` with `text-black`.
 
 ### Inputs & forms
-- Inputs use `@tailwindcss/forms` reset, then `border-gray-light`, `rounded-md`, `text-sm`, `focus:ring-primary focus:border-primary`.
+- Inputs use `@tailwindcss/forms` reset, then a **1px solid `#111827` (ink) stroke**, `rounded` (4px control radius — not `rounded-md`), `text-sm`. Focus adds a **3px amber halo** outside the stroke (`rgba(251, 191, 36, 0.45)`); the stroke itself stays ink, no border-color shift.
 - **InputGroup** is the canonical wrapper: label above, input, helper text below, error in `text-danger-dark`.
-- **Checkbox / Radio** — square (checkbox) and circle (radio), `text-primary` checked color, `focus:ring-primary`.
-- **Switch** — pill toggle, `bg-gray-light` off, `bg-primary` on.
+- **Checkbox / Radio** — square (checkbox) and circle (radio), 1px ink stroke. Checked state flips to **brand green `#059669`** (not amber), matching the Switch.
+- **Switch** — pill toggle with a 1px ink stroke. `bg-gray-light` off, **`bg-success-dark` (`#059669` brand green) on — not amber**. The on-color is shared with Checkbox/Radio.
 - **Fieldsets** group related toggles with a light heading and stacked items.
 - **Combobox / Select Menu** — dropdown surfaces use `bg-white shadow-lg ring-1 ring-black/5 rounded-md`. Selected item: `bg-primary-lightest text-primary-darkest`.
 - **Keypad inputs** (currency, time) — large, finger-friendly numeric pads for tablet/POS use.
@@ -164,7 +166,7 @@ Phorest's component vocabulary, mirrored from the in-app styleguide. Components 
 - Empty-state cards center their content vertically with a muted icon and a short instruction.
 
 ### Avatars & badges
-- **Avatar** — circular, sizes `sm` (h-6), `md` (h-8), `lg` (h-10), `xl` (h-12). Initials fallback uses a deterministic color from the name string.
+- **Avatar** — circular, sizes `xs` (h-6), `sm` (h-8), `md` (h-10), `lg` (h-12), `xl` (h-14). Initials fallback is **neutral gray by default** — `bg-gray-dark` with white text, or a lighter gray-100 / gray-600 pairing on darker surfaces. **No deterministic coloring from the name.** Callers can override the background colour explicitly.
 - **Badge** — pill, `text-xs font-medium`, status-colored: e.g. `bg-success-lighter text-success-darker`. Always pair lighter background with darker text.
 - **Tag** — like badge but with a close button; user-removable.
 
@@ -182,7 +184,7 @@ Phorest's component vocabulary, mirrored from the in-app styleguide. Components 
 ### Domain components (Phorest-specific)
 These are unique to the salon domain and should be referenced explicitly when generating screens in that context:
 
-- **Appointment Calendar / Event Content** — colored slot cards in a day-grid calendar; service color stripe on the leading edge.
+- **Appointment Calendar / Event Content** — colored slot cards in a day-grid calendar. Each slot has a **2px solid `#111827` stroke around all four sides** (no leading-edge stripe). The fill carries the status colour; text is **black on light fills and white on dark fills**, chosen by contrast. Service name on top, time below — never side-by-side on the same row.
 - **Appointment Slideover / Insights** — a right slideover that surfaces "flag" insight cards (e.g. no-show risk, rebook reminder). 11 individual flag types.
 - **Calendar navigation / view selector** — top bar combining date picker, day/week toggle, and staff filter.
 - **Client profile** — header card with avatar, contact, and recent visit stats.
