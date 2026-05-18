@@ -216,6 +216,101 @@ Disabled is universal: `opacity: 0.5` on the whole element. No separate disabled
 
 ---
 
+## 4b. Iconography
+
+Phorest uses **Heroicons** (Tailwind Labs) as the primary icon library, supplemented by **Lucide** where Heroicons does not cover the case. All icons are flat single-path SVGs, designed to inherit colour from their parent.
+
+### Library and CDN
+
+- Heroicons v2.2.0 (current). Outline style is the default.
+- CDN (jsDelivr): `https://cdn.jsdelivr.net/npm/heroicons@2.2.0/24/outline/{name}.svg`
+- Browse and search: `https://heroicons.com`
+- For names not in Heroicons, fall back to Lucide: `https://lucide.dev`
+
+### Default size and stroke
+
+- Default size: **24×24 px**. This matches the Figma icon components.
+- Stroke width: as authored by Heroicons (1.5px outline, do not override).
+- Colour: **inherits from parent text colour** via `stroke="currentColor"`. To recolour an icon, set the parent's text colour token.
+
+### Sizing in context
+
+- Inside buttons: 20×20 (slightly smaller than the 24px default, fits the 40px button height with 10px vertical padding).
+- Inside list items, menu items, sidebar items: 24×24 (default).
+- Inside badges: 16×16.
+- Inside the Numpad and large inputs: 24×24.
+
+### Colour binding
+
+Icons inherit from the surrounding text colour. Concretely:
+
+| Context | Token |
+|---|---|
+| Default icon on white surface | `icon/default` (black) |
+| Muted icon (menu title, banner) | `icon/tertiary` (gray-400) |
+| Status icons (alert, badge) | `icon/status/{role}` (role-600) |
+| Icon on dark surface | `icon/inverted` (white) |
+| Input left icon | currently binds to `text/secondary` (gray-500), a known category mismatch |
+
+Do not set `fill` on icon SVGs. Heroicons outline icons use `stroke`, not `fill`.
+
+### How to embed
+
+Inline SVG, with the parent setting colour:
+
+```html
+<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" d="..." />
+</svg>
+```
+
+Or img tag (less flexible for colour):
+
+```html
+<img src="https://cdn.jsdelivr.net/npm/heroicons@2.2.0/24/outline/calendar.svg" width="24" height="24" alt="" />
+```
+
+### Common icons by use
+
+When the agent is unsure which icon to use, prefer these defaults:
+
+| Use | Heroicon name |
+|---|---|
+| Calendar / appointments | `calendar` |
+| Clients / users | `users`, `user` for single |
+| Marketing | `megaphone` |
+| Purchase / shopping | `shopping-bag` |
+| Manager / dashboard | `chart-bar` |
+| Settings | `cog-6-tooth` |
+| Search | `magnifying-glass` |
+| Close | `x-mark` |
+| Confirm / check | `check` |
+| More options | `ellipsis-horizontal` or `ellipsis-vertical` |
+| Add | `plus` |
+| Edit | `pencil` |
+| Delete | `trash` |
+| Next / forward | `chevron-right` |
+| Back | `chevron-left` |
+| Expand / collapse | `chevron-down` / `chevron-up` |
+| Notification | `bell` |
+| Help | `question-mark-circle` |
+| Information (in Alerts) | `information-circle` |
+| Warning (in Alerts) | `exclamation-triangle` |
+| Error (in Alerts) | `x-circle` |
+| Success (in Alerts) | `check-circle` |
+
+### Avatar
+
+Avatars are separate from icons but follow a similar simple rule. Phorest's avatar pattern:
+
+- **Default colouring is neutral gray.** `bg/neutral-dark` (gray-200) surface, `text/primary` initials. There is **no deterministic colouring derived from the user's name** (no "Anna gets blue, Carlos gets red" rule).
+- Callers may explicitly override the background colour when context calls for it.
+- Sizes: 24×24 (xs), 32×32 (sm), 40×40 (md, the default in stacked lists), 48×48 (lg), 56×56 (xl).
+- Shape: circle (`radius/full`).
+- Initials fallback: first letter of first and last name, in `text/primary`, `medium` weight, font-size scaled to half the avatar height.
+
+---
+
 ## 5. Component Stylings
 
 Every component listed below is in the Figma file under a `✅` page and is stable for generation. Components not listed (Cards, Stepper, Combobox, IconButton, Modal primitive) are pre-audit or WIP - do not generate them.
@@ -551,6 +646,41 @@ Typical usage:
 
 Tablet-first (1024px). Multi-column forms collapse from 2-column to single column below `lg`. Tables maintain horizontal scroll rather than reshape rows.
 
+### Phorest token → Tailwind class mapping
+
+**Critical**: Phorest's token names look similar to Tailwind utility classes but **the names and the values do not always match**. Generate against the **resolved pixel value**, not against the matching-looking Tailwind class name.
+
+Reference table (use this any time you would otherwise reach for a Tailwind utility based on a token name):
+
+| Phorest token | Resolves to | Tailwind v3 class | Notes |
+|---|---|---|---|
+| `radius/xs` | 2px | `rounded-sm` | Tailwind `rounded-sm` happens to match |
+| `radius/sm` | 4px | `rounded` | **Not `rounded-sm`** (which is 2px) |
+| `radius/md` | 6px | `rounded-md` | Tailwind `rounded-md` happens to match |
+| `radius/lg` | 8px | `rounded-lg` | Tailwind `rounded-lg` happens to match |
+| `radius/xl` | 12px | `rounded-xl` | Tailwind `rounded-xl` happens to match |
+| `radius/2xl` | 16px | `rounded-2xl` | Tailwind `rounded-2xl` happens to match |
+| `radius/full` | 9999px | `rounded-full` | |
+| `spacing/2` | 4px | `p-1`, `gap-1`, `m-1`, etc. | **Not Tailwind's `2`** (which is 8px) |
+| `spacing/3` | 8px | `p-2`, `gap-2`, `m-2`, etc. | **Not Tailwind's `3`** (which is 12px) |
+| `spacing/4` | 12px | `p-3`, `gap-3`, `m-3`, etc. | **Not Tailwind's `4`** (which is 16px) |
+| `spacing/5` | 16px | `p-4`, `gap-4`, `m-4` | |
+| `spacing/6` | 20px | `p-5`, `gap-5`, `m-5` | |
+| `spacing/7` | 24px | `p-6`, `gap-6`, `m-6` | |
+| `spacing/8` | 32px | `p-8`, `gap-8`, `m-8` | |
+| `font/size/xs` | 12px | `text-xs` | |
+| `font/size/s` | 14px | `text-sm` | |
+| `font/size/m` | 16px | `text-base` | |
+| `font/size/l` | 18px | `text-lg` | |
+| `font/size/xl` | 20px | `text-xl` | |
+| `font/size/2xl` | 24px | `text-2xl` | |
+| `border/width/xs` | 1px | `border` | |
+| `border/width/s` | 2px | `border-2` | (or `border-b-2` for the bottom rail) |
+
+**Rule of thumb**: when the doc says `radius/sm`, write `rounded` in Tailwind, not `rounded-sm`. When the doc says `spacing/3`, write `p-2`/`gap-2` etc., not `p-3`. The Phorest scale shifted by one position relative to Tailwind's, so the names mislead.
+
+When in doubt, use the **pixel value** as an arbitrary Tailwind utility: `rounded-[4px]`, `p-[8px]`. This is verbose but cannot be wrong.
+
 ---
 
 ## 8. Depth & Elevation
@@ -666,6 +796,144 @@ Collapse rules:
 5. Disabled is `opacity: 0.5`, applied uniformly. Don't create disabled-specific colours.
 6. Tabs and Secondary nav items inherit the outlined-control treatment in their selected/hover states. Treat them as buttons-in-context.
 7. Compose pages with `bg/neutral-light` page backgrounds and `bg/white` card surfaces. Use `bg/neutral` for hover states on white surfaces.
+8. **Always check the token-to-Tailwind mapping table in section 7 before writing a Tailwind class.** `radius/sm` is `rounded`, not `rounded-sm`. `spacing/3` is `gap-2`, not `gap-3`.
+9. **Use real Heroicons SVGs via the CDN listed in section 4b.** Do not use emoji or placeholder shapes.
+
+### Worked example: full screen composition
+
+This is what good looks like for a typical Phorest screen. Use as a structural reference for composing pages, not as a copy-paste template.
+
+**Scene**: Today's appointment list, with two rows multi-selected. Three-column shell: global Sidebar (left), Secondary nav (middle), main content (right). Actionbar sticky at bottom when items are selected.
+
+**Page structure (in order, top to bottom, left to right):**
+
+1. **Global Sidebar** (220px wide, full height, dark sky-900 surface)
+   - Logo at top (24px tall, white)
+   - 8-12 nav items, each is a `.sidebarParts-Item`: 8/12/8/12 padding, `radius/lg` (8px) corners, gap 12, icon (24px) + label (14px medium)
+   - Selected item: `sidebar/item/bg-selected` (white fill), sky-900 text
+   - Default items: `sidebar/item/bg-default-on-light` (white at 20% opacity), white text
+   - Profile/settings cluster at bottom (`mt-auto`)
+
+2. **Secondary navigation** (240px wide, full height, white surface, `border/light` right edge)
+   - Section header: `.secondaryNavParts-SectionHeader`, 8/16/8/16 padding, 12px uppercase tracking-wide font-medium text-tertiary
+   - Items: `.secondaryNavParts-Item`, h-10, 0/16/0/16 padding, `radius/sm` (4px = Tailwind `rounded`)
+   - Default item: transparent fill, sky-900 text/icon
+   - Pressed item: sky-900 fill, white text/icon (the active route)
+   - Hover: sky-50 fill + 2px bottom rail
+
+3. **Main content** (flex-1, scrollable, `bg/neutral-light` background)
+   - Page header: white surface, 32/24/32/24 padding, `border/lighter` bottom edge
+     - Title: 24px bold (font/size/2xl)
+     - Subtitle: gray-500, 16px regular (font/size/m)
+     - Action buttons cluster on the right (Secondary "Export" + Primary "+ New appointment")
+   - Tabs strip: underline pattern, `bg/overlay/light` surface, `border/light` bottom edge
+   - List header: `.listheader`, gray-50 fill, 6/24/6/24 padding, 12px uppercase tracking-wide font-medium text-secondary
+   - List body: stack of `.listitem` rows on white, each row 80px tall with `border/lighter` bottom divider
+
+4. **Actionbar** (sticky bottom, appears on multi-select, 58px tall, `bg/banner` (yellow-400) fill, 16/12/16/12 padding)
+   - Left: selection count in `text/primary` medium
+   - Right: action buttons cluster
+   - **Button choice inside Actionbar**: the yellow Actionbar surface conflicts with a yellow Primary button. Use **Secondary** (white) buttons for actions inside the Actionbar. Reserve Destructive (red) for genuinely destructive actions. The "confirm" / dominant action uses the Secondary treatment here, not Primary.
+
+**Composition rhythm rules:**
+
+- Page background is **`bg/neutral-light`** (gray-50). Surfaces that hold content (headers, list bodies, cards) are **`bg/white`**.
+- Section dividers between major regions use `border/lighter` (gray-100), 1px, bottom-only. No box borders.
+- Section internal padding: 24px horizontal. Vertical padding scales with content density (16px in dense list rows, 24px in headers, 32px between unrelated regions).
+- Avatar in list rows: 40px circle, gray-200 fill, gray-900 initials. No name-derived colouring.
+- Numbers (counts, times, money) right-align where stacked, `medium` weight.
+
+**Reference HTML skeleton** (Tailwind, no inline styles where avoidable):
+
+```html
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <aside class="w-[220px] bg-sky-900 text-white flex flex-col p-2 gap-2">
+    <div class="h-16 flex items-center px-3 font-bold">phorest</div>
+    <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-white text-sky-900 font-medium">
+      <svg class="w-6 h-6" ...><!-- heroicon: calendar --></svg>
+      Appointments
+    </a>
+    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white" style="background:rgba(255,255,255,0.20)">
+      <svg class="w-6 h-6" ...><!-- heroicon: users --></svg>
+      Clients
+    </a>
+    <!-- ... more items ... -->
+  </aside>
+
+  <!-- Secondary nav -->
+  <nav class="w-[240px] bg-white border-r border-gray-400 px-5 py-4 flex flex-col gap-2">
+    <div class="px-4 py-2 text-xs uppercase tracking-wide font-medium text-gray-400">Bookings</div>
+    <a class="flex items-center gap-2 px-4 h-10 rounded bg-sky-900 text-white font-medium">
+      <svg class="w-6 h-6" stroke="currentColor" ...><!-- heroicon --></svg>
+      Today's appointments
+    </a>
+    <!-- ... more items ... -->
+  </nav>
+
+  <!-- Main -->
+  <main class="flex-1 overflow-y-auto bg-gray-50">
+    <header class="bg-white px-6 py-6 border-b border-gray-100 flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold">Today's appointments</h1>
+        <p class="text-gray-500 mt-1">Monday, May 18 - 24 bookings</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="bg-white px-3 h-10 rounded font-medium" style="border:1px solid #000;border-bottom-width:2px">Export</button>
+        <button class="px-3 h-10 rounded font-medium flex items-center gap-2" style="background:#fbbf24;border:1px solid #000;border-bottom-width:2px">
+          <svg class="w-5 h-5" ...><!-- heroicon: plus --></svg>
+          New appointment
+        </button>
+      </div>
+    </header>
+
+    <!-- Tabs (underline), list, etc. -->
+
+    <!-- List body -->
+    <div class="bg-white">
+      <!-- Selected row -->
+      <div class="flex items-center gap-3 px-6 py-[18px] border-b border-gray-100 bg-gray-100">
+        <div class="w-5 h-5 rounded flex items-center justify-center" style="background:#059669">
+          <svg class="w-3 h-3 text-white" ...><!-- heroicon: check --></svg>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-medium text-gray-900">SM</div>
+        <div class="flex-1">
+          <div class="font-medium">Sarah Miller</div>
+          <div class="text-xs text-gray-500 mt-0.5">Hair cut & colour - 90 min - with Anna</div>
+        </div>
+        <span class="px-2 py-0.5 rounded-full text-xs font-medium" style="background:#d1fae5;color:#065f46">Confirmed</span>
+        <div class="font-medium w-16 text-right">9:00</div>
+      </div>
+      <!-- ... more rows ... -->
+    </div>
+  </main>
+</div>
+
+<!-- Actionbar -->
+<div class="fixed bottom-0 left-[460px] right-0 px-3 py-4 flex items-center gap-3" style="background:#fbbf24">
+  <span class="font-medium">2 appointments selected</span>
+  <div class="ml-auto flex items-center gap-2">
+    <!-- Tertiary - uniform 1px gray-400 -->
+    <button class="bg-transparent px-3 h-10 rounded font-medium" style="border:1px solid #9ca3af">Cancel</button>
+    <!-- Secondary - white surface with rail. The dominant action lives here, not in Primary,
+         because Primary's yellow would clash with the Actionbar's yellow surface. -->
+    <button class="bg-white px-3 h-10 rounded font-medium" style="border:1px solid #000;border-bottom-width:2px">Reschedule</button>
+    <button class="bg-white px-3 h-10 rounded font-medium" style="border:1px solid #000;border-bottom-width:2px">Confirm</button>
+    <!-- Destructive - red-600 fill -->
+    <button class="px-3 h-10 rounded font-medium text-white" style="background:#dc2626;border:1px solid #000;border-bottom-width:2px">No-show</button>
+  </div>
+</div>
+```
+
+**What this example teaches the agent (and is hard to learn from component specs alone):**
+
+- The default page background is `bg/neutral-light` (gray-50), with white surfaces stacked on top.
+- The page header is its own white surface with a thin bottom divider, not a card.
+- The Sidebar and Secondary nav are full-bleed (no rounded corners on the panels themselves).
+- List rows stack flat against each other with bottom-only dividers, not as separate cards.
+- **Inside the Actionbar, the button variant choice flips**: Secondary is the dominant action because Primary (yellow) would lose contrast on the yellow Actionbar surface.
+- Numbers (times, counts) are right-aligned in a fixed-width slot.
+- Avatars use neutral gray fills by default; no name-derived colours.
 
 ---
 
