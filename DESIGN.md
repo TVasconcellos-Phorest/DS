@@ -1,948 +1,802 @@
-# Phorest Design System (DESIGN.md)
+---
+version: alpha
+name: Phorest
+description: >
+  Operational design system for Phorest, the salon, spa, and clinic SaaS.
+  Tablet-landscape primary form factor (~1024px), desktop secondary.
+  Light theme only. Restrained color, brutalist signature on interactive
+  controls, operational density over breathing room.
 
-The visual language used by the Phorest salon software web client. Source of truth: the Phorest Design System Figma file (key `z3NnAwMyxonMiZUqyrzW8h`). Intended for consumption by Claude Design.
+colors:
+  # Primary — brand accent, dominant CTA
+  primary: "#FBBF24"
+  primary-hover: "#F59E0B"
 
-This document captures what is currently stable in the system. Components not listed are either pre-audit or work-in-progress and should not be generated until they land here.
+  # Ink — text, borders, icons. Pure black.
+  ink: "#000000"
+  ink-muted: "#6B7280"
+  ink-subtle: "#9CA3AF"
+  ink-inverted: "#FFFFFF"
 
+  # Surfaces — light theme only
+  canvas: "#F9FAFB"
+  surface: "#FFFFFF"
+  surface-muted: "#F3F4F6"
+
+  # Borders
+  border: "#E5E7EB"
+  border-strong: "#9CA3AF"
+  divider: "#E0E0E0"
+
+  # Brand teal — wordmark only
+  brand: "#134E4A"
+
+  # Status
+  success: "#059669"
+  success-bg: "#D1FAE5"
+  success-ink: "#065F46"
+  warning: "#D97706"
+  warning-bg: "#FEF3C7"
+  warning-ink: "#92400E"
+  danger: "#DC2626"
+  danger-bg: "#FEE2E2"
+  danger-ink: "#991B1B"
+  info: "#2563EB"
+  info-bg: "#DBEAFE"
+  info-ink: "#1E40AF"
+
+  # Theme — modal and slideover footers only
+  theme: "#7DD3FC"
+  theme-bg: "#F0F9FF"
+  theme-ink: "#0C4A6E"
+
+typography:
+  stat:
+    fontFamily: InterVariable
+    fontSize: 30px
+    fontWeight: 700
+    lineHeight: 1.1
+    fontVariation: "'numerals' tabular"
+  h1:
+    fontFamily: InterVariable
+    fontSize: 24px
+    fontWeight: 700
+    lineHeight: 1.25
+    letterSpacing: -0.01em
+  h2:
+    fontFamily: InterVariable
+    fontSize: 20px
+    fontWeight: 700
+    lineHeight: 1.25
+  h3:
+    fontFamily: InterVariable
+    fontSize: 18px
+    fontWeight: 700
+    lineHeight: 1.25
+  body:
+    fontFamily: InterVariable
+    fontSize: 16px
+    fontWeight: 400
+    lineHeight: 1.5
+  body-sm:
+    fontFamily: InterVariable
+    fontSize: 14px
+    fontWeight: 400
+    lineHeight: 1.5
+  meta:
+    fontFamily: InterVariable
+    fontSize: 12px
+    fontWeight: 400
+    lineHeight: 1.5
+  label-micro:
+    fontFamily: InterVariable
+    fontSize: 12px
+    fontWeight: 500
+    lineHeight: 1.5
+    letterSpacing: 0.05em
+  numeric:
+    fontFamily: InterVariable
+    fontWeight: 500
+    fontVariation: "'numerals' tabular"
+  code:
+    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+    fontSize: 15px
+    fontWeight: 400
+
+spacing:
+  "0": 0px
+  "0.5": 2px
+  "1": 4px
+  "2": 8px
+  "3": 12px
+  "4": 16px
+  "5": 20px
+  "6": 24px
+  "8": 32px
+  "10": 40px
+  "12": 48px
+  "16": 64px
+  "20": 80px
+
+rounded:
+  DEFAULT: 4px
+  lg: 8px
+  full: 9999px
+
+components:
+  # Buttons
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.DEFAULT}"
+    height: 40px
+    padding: "0 12px"
+  button-primary-hover:
+    backgroundColor: "{colors.primary-hover}"
+
+  button-secondary:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.DEFAULT}"
+    height: 40px
+    padding: "0 12px"
+  button-secondary-hover:
+    backgroundColor: "{colors.surface-muted}"
+
+  button-tertiary:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.DEFAULT}"
+    height: 40px
+    padding: "0 12px"
+  button-tertiary-hover:
+    backgroundColor: "{colors.surface-muted}"
+
+  # Input
+  input:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "{rounded.DEFAULT}"
+    height: 40px
+    padding: "0 12px"
+
+  # Toggle
+  toggle:
+    backgroundColor: "{colors.surface-muted}"
+    rounded: "{rounded.full}"
+    width: 40px
+    height: 24px
+  toggle-on:
+    backgroundColor: "{colors.success}"
+
+  # Card
+  card:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.lg}"
+    padding: "16px"
+
+  # Slideover
+  slideover:
+    backgroundColor: "{colors.surface}"
+    rounded: "0px"
+    padding: "16px"
+  slideover-narrow:
+    width: "520px"
+  slideover-wide:
+    width: "680px"
+  slideover-footer:
+    backgroundColor: "{colors.theme}"
+    padding: "16px 24px"
 ---
 
-## 1. Visual Theme & Atmosphere
+## Overview
 
-Phorest is a salon, spa, and clinic SaaS used daily by front-desk staff, stylists, therapists, and owners. The interface is **dense, calm, and operational**, not flashy. People live in it for full shifts, so screens prioritise legibility, scanability, and confidence over decoration.
+Phorest is operational software for salon staff who use it dozens of times
+per shift. The visual character is deliberately restrained: pure black
+ink on white, with crisp black strokes on interactive elements giving
+the system its signature brutalist clarity. Color is sparse — an amber
+accent on the dominant CTA, brand teal reserved for the wordmark,
+status colors inside chips. At the frequency staff use the product,
+anything louder becomes noise.
 
-**Tone**
-- Warm and professional. Numbers, money values, and errors must read as authoritative.
-- Light theme only. There is no dark theme.
+### Key Characteristics
 
-**Density**
-- Comfortably packed. Lists, tables, calendars, and slideovers carry a lot of information.
-- White space exists to group, not to breathe for its own sake.
-- Default body text is 14-16px. Supporting metadata sits at 12px.
+- The white-stroked secondary button is the workhorse. The amber primary
+  is reserved for one CTA per view, and not every view has one.
+- Primary and secondary buttons carry a 1px black stroke on three sides
+  plus a 2px stroke on the bottom edge. On press, the bottom edge
+  collapses to 1px and the button nudges 1px down.
+- Tertiary buttons: white background with a 1px light-gray border. No
+  2px bottom edge. Lower visual weight than secondary.
+- Destructive buttons: flat red fill, no stroke. Reserved for moments
+  when data is being deleted or destroyed. Rarer than the amber primary.
+- Inputs and selects: 1px black stroke at rest. On focus, the stroke
+  thickens to 2px on all sides without layout shift (implemented via
+  inset shadow).
+- Toggles and checkboxes flip to brand green (#059669) when on. Amber
+  is for action; green signals state.
+- Brand teal (#134E4A) is wordmark-only. Never appears in functional UI.
+- Light theme only. No dark surfaces.
+- No gradients, no glassmorphism, no purple, no pink.
 
-**Atmosphere**
-- A warm amber-yellow primary (`#fbbf24`) signals key actions.
-- A cool sky-blue **theme** scale signals informational accents and calendar surfaces (temporary tokens, pending product-wide direction).
-- Neutral grays carry structure. Brand "Phorest teal" appears only on the corporate mark and is not a functional UI colour.
-- A 1px black outline is the system's signature: it appears on buttons, tabs, toggles, inputs, and interactive nav items. See section 4 (The outlined control).
+## Colors
 
----
+Phorest's palette is built around restraint. Most visual weight is carried
+by pure black ink on near-white surfaces. Color appears only in deliberate
+roles.
 
-## 2. Color Palette & Roles
+### Primary
 
-All colour values resolve to Tailwind v3 primitives. Bind via the semantic tokens listed below, not raw hex.
+- **`{colors.primary}` — Amber (#FBBF24):** Brand accent. Reserved for the
+  dominant CTA — one per view. Most operational surfaces have no amber
+  button at all; work gets done by the white-stroked secondary.
+- **`{colors.primary-hover}` (#F59E0B):** Press/hover state of the amber
+  primary button.
+- **`{colors.brand}` — Brand teal (#134E4A):** Wordmark only. Never a
+  button, never a fill, never a stroke in functional UI.
 
-### Primitives (Tailwind v3, exact)
+### Ink
 
-The system carries the full Tailwind v3 colour scale as primitives. Listing the families used by semantic tokens:
+Default ink is pure black (#000000), not near-black. Applies to text,
+icons, and borders on interactive elements. The brutalist character of
+the system is built on this choice.
 
-| Family | 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 |
-|---|---|---|---|---|---|---|---|---|---|---|
-| gray | `#f9fafb` | `#f3f4f6` | `#e5e7eb` | `#d1d5db` | `#9ca3af` | `#6b7280` | `#4b5563` | `#374151` | `#1f2937` | `#111827` |
-| yellow | `#fffbeb` | `#fef3c7` | `#fde68a` | `#fcd34d` | `#fbbf24` | `#f59e0b` | `#d97706` | `#b45309` | `#92400e` | `#78350f` |
-| green | `#ecfdf5` | `#d1fae5` | `#a7f3d0` | `#6ee7b7` | `#34d399` | `#10b981` | `#059669` | `#047857` | `#065f46` | `#064e3b` |
-| red | `#fef2f2` | `#fee2e2` | `#fecaca` | `#fca5a5` | `#f87171` | `#ef4444` | `#dc2626` | `#b91c1c` | `#991b1b` | `#7f1d1d` |
-| blue | `#eff6ff` | `#dbeafe` | `#bfdbfe` | `#93c5fd` | `#60a5fa` | `#3b82f6` | `#2563eb` | `#1d4ed8` | `#1e40af` | `#1e3a8a` |
-| sky | `#f0f9ff` | `#e0f2fe` | `#bae6fd` | `#7dd3fc` | `#38bdf8` | `#0ea5e9` | `#0284c7` | `#0369a1` | `#075985` | `#0c4a6e` |
-| teal | (brand mark only) | | | | | | | | `#115e59` | `#134e4a` |
+- **`{colors.ink}` (#000000):** Default text, default icon, default
+  border on buttons and inputs.
+- **`{colors.ink-muted}` (#6B7280):** Secondary text, captions, metadata.
+- **`{colors.ink-subtle}` (#9CA3AF):** Tertiary text, fine print,
+  placeholder text.
+- **`{colors.ink-inverted}` (#FFFFFF):** Text on dark surfaces (rare).
 
-### Semantic tokens (the binding layer)
+### Surfaces
 
-These are the tokens components actually bind to. Names describe role, not value.
+Light theme only. No dark mode.
 
-**Text**
+- **`{colors.canvas}` (#F9FAFB):** Default page background.
+- **`{colors.surface}` (#FFFFFF):** Cards, panels, default content surface.
+- **`{colors.surface-muted}` (#F3F4F6):** Subtle elevation, secondary
+  surfaces.
 
-| Token | Resolves to | Use |
-|---|---|---|
-| `text/primary` | `#000000` | Default body text, list item names, table cells |
-| `text/secondary` | gray-500 `#6b7280` | Helper text, metadata, descriptions |
-| `text/tertiary` | gray-400 `#9ca3af` | Placeholder, menu titles, de-emphasised labels |
-| `text/inverted` | `#ffffff` | Text on dark surfaces |
-| `text/status/error` | red-800 `#991b1b` | Error message text |
-| `text/status/success` | green-800 `#065f46` | Success message text |
-| `text/status/warning` | yellow-800 `#92400e` | Warning message text |
-| `text/status/info` | blue-800 `#1e40af` | Info message text |
+### Borders
 
-**Backgrounds**
+- **`{colors.border}` (#E5E7EB):** Default 1px border on cards, dividers
+  within cards, tertiary button outline.
+- **`{colors.border-strong}` (#9CA3AF):** Heavier dividers, used against
+  denser content.
+- **`{colors.divider}` (#E0E0E0):** Heavier hairline at page-section
+  boundaries.
 
-| Token | Resolves to | Use |
-|---|---|---|
-| `bg/white` | `#ffffff` | Card surfaces, menu surfaces, table rows |
-| `bg/neutral-light` | gray-50 `#f9fafb` | Page background, group headers |
-| `bg/neutral` | gray-100 `#f3f4f6` | Hover backgrounds, panel surfaces |
-| `bg/neutral-dark` | gray-200 `#e5e7eb` | Pressed/active neutral surfaces |
-| `bg/neutral-darker` | gray-300 `#d1d5db` | (reserved) |
-| `bg/banner` | yellow-400 `#fbbf24` | Actionbar background (multi-select feedback) |
-| `bg/overlay/dark` | gray-600 at 75% opacity | Modal/slideover backdrop |
-| `bg/overlay/light` | white at 90% opacity | (specialised use) |
+### Status
 
-Status bg family (success / error / warning / info, all five stops):
+Status colors live inside content (chip backgrounds, icon fills, error
+text), not on chrome. Each status pairs a saturated value, a light
+background, and darker text from the same family.
 
-| Stop | success | error | warning | info |
-|---|---|---|---|---|
-| `-lighter` | green-50 | red-50 | yellow-50 | blue-50 |
-| `-light` | green-100 | red-100 | yellow-100 | blue-100 |
-| `(default)` | green-400 | red-400 | yellow-400 | blue-400 |
-| `-dark` | green-600 | red-600 | yellow-600 | blue-600 |
-| `-darker` | green-800 | red-800 | yellow-800 | blue-800 |
+- **`{colors.success}` (#059669):** Toggle and checkbox "on" state, status
+  chips, confirmation icons. Not used as a primary action color — amber
+  owns action; green signals state.
+- **`{colors.warning}` (#D97706):** Cautionary chips and inline warnings.
+- **`{colors.danger}` (#DC2626):** Destructive button fill, error icons,
+  error text. Rare.
+- **`{colors.info}` (#2563EB):** Informational chips and neutral notices.
 
-Pattern: light backgrounds (`-light`) pair with dark text (`-darker`) for inline status content (alerts, badges). The `-dark` and `-darker` stops are for filled status controls (checked boxes, radios, toggles, destructive buttons).
+### Theme
 
-**Borders**
+`{colors.theme}` (#7DD3FC) is reserved for **modal and slideover footers
+only**. It does not appear in primary UI chrome, navigation, calendars,
+info banners, or anywhere else. Most narrowly scoped color in the system.
 
-| Token | Resolves to | Use |
-|---|---|---|
-| `border/primary` | `#000000` | The signature black 1px outline. Buttons, inputs, tabs, toggles, sidebar items, secondary nav items |
-| `border/light` | gray-400 `#9ca3af` | Standard neutral borders (tertiary buttons, tab underline, input dividers) |
-| `border/lighter` | gray-100 `#f3f4f6` | Subtle borders (menu surface, card dividers, list dividers) |
-| `border/darker` | gray-900 `#111827` | Strong borders (radio card hover) |
-| `border/error` | red-600 `#dc2626` | Input error state |
-| `border/status/{role}` | role-600 | Status borders (default) |
-| `border/status/{role}-darker` | role-800 | Status borders (strong) |
+## Typography
 
-**Icons**
+Inter Variable for all product UI. One family, one scale, three weights.
 
-| Token | Resolves to | Use |
-|---|---|---|
-| `icon/default` | `#000000` | Default icon colour |
-| `icon/tertiary` | gray-400 `#9ca3af` | Muted icon (menu titles, banners) |
-| `icon/inverted` | `#ffffff` | Icon on dark surfaces |
-| `icon/status/{role}` | role-600 | Status icons |
+### Hierarchy
 
-Note: there is no `icon/secondary` token yet. Where a secondary-icon role is needed (Input's left icon, etc.), the component currently binds to `text/secondary`. Acceptable, but a known category mismatch.
+- **`{typography.stat}` (30/700/1.1, tabular-nums):** Dashboard numbers,
+  key metrics.
+- **`{typography.h1}` (24/700/1.25):** Page titles. One per view.
+- **`{typography.h2}` (20/700/1.25):** Section heads within a page.
+- **`{typography.h3}` (18/700/1.25):** Sub-section heads, card titles.
+- **`{typography.body}` (16/400/1.5):** Default running text.
+- **`{typography.body-sm}` (14/400/1.5):** Dense metadata, table content.
+- **`{typography.meta}` (12/400/1.5):** Captions, fine print, timestamps.
+- **`{typography.label-micro}` (12/500/1.5, 0.05em, uppercase):** Small
+  badges, table column headers, short pill labels. The single uppercase
+  exception in the system.
 
-### Component-layer tokens
+### Numerics
 
-Reserved for component-specific values that don't belong in the semantic layer.
+Numbers carrying information (money, counts, durations, percentages) use
+`{typography.numeric}` — tabular numerics with `font-weight: 500`.
+Tabular ensures digits align vertically in tables and lists.
 
-| Token | Resolves to | Used by |
-|---|---|---|
-| `button/primary/bg-default` | yellow-400 | Primary button background |
-| `button/primary/bg-hover` | yellow-500 | Primary button hover |
-| `button/destructive/bg-default` | red-600 | Destructive button background |
-| `button/destructive/bg-hover` | red-800 | Destructive button hover (200-step jump) |
-| `theme/bg-default` | sky-300 | Numpad surface (temporary, pending review) |
-| `theme/bg-accent` | sky-400 | Numpad header (temporary, pending review) |
-| `table/header-bg-default` | sky-900 | Table column header |
-| `table/header-bg-hover` | sky-800 | Table column header hover |
-| `table/row-bg-hover` | blue-100 | Table row hover |
-| `table/row-bg-totals` | blue-200 | Table totals row |
-| `sidebar/item/bg-default-on-light` | white at 20% opacity | Sidebar item resting (light contrast) |
-| `sidebar/item/bg-default-on-dark` | black at 5% opacity | Sidebar item resting (dark contrast) |
-| `sidebar/item/bg-selected` | `#ffffff` | Sidebar item selected |
-| `sidebar/item/border-hover-on-light` | `#ffffff` | Sidebar item hover (light contrast) |
-| `sidebar/item/border-hover-on-dark` | `#000000` | Sidebar item hover (dark contrast) |
-| `secondaryNav/item/bg-hover` | sky-50 | Secondary nav hover |
-| `secondaryNav/item/bg-pressed` | sky-900 | Secondary nav pressed |
-| `secondaryNav/item/text-default` | sky-900 | Secondary nav text |
-| `secondaryNav/item/text-pressed` | `#ffffff` | Secondary nav pressed text |
-| `secondaryNav/item/icon-default` | sky-900 | Secondary nav icon |
-| `secondaryNav/item/icon-pressed` | `#ffffff` | Secondary nav pressed icon |
+### Code
 
-### Brand colour
+Ticket numbers, IDs, and inline code use `{typography.code}` — system
+monospace stack.
 
-Phorest teal `#134e4a` (teal-900) and `#115e59` (teal-800) appear on the corporate wordmark only. Do not use teal as a functional UI colour.
+### Casing
 
----
-
-## 3. Typography
-
-### Font family
-
-`Inter` (single family). No display or secondary face. Mono is unused in the system today.
-
-### Type scale
-
-| Token | Size | Line height | Typical use |
-|---|---|---|---|
-| `font/size/xs` | 12px | 16px | Metadata, helper text, badge labels |
-| `font/size/s` | 14px | 20px | Body in dense views (default for tables and lists) |
-| `font/size/m` | 16px | 22px | Standard body |
-| `font/size/l` | 18px | 24px | Section titles |
-| `font/size/xl` | 20px | 30px | Page subtitles |
-| `font/size/2xl` | 24px | 38px | Page titles |
-| `font/size/3xl` | 30px | 46px | Dashboard stat figures |
-| `font/size/4xl` | 36px | 60px | Display |
-| `font/size/5xl` | 48px | 74px | Display (rare) |
-| `font/size/6xl` | 60px | (custom) | Display (rare) |
+Sentence case everywhere. Title Case only for proper nouns (client names,
+service names, brand names). The single uppercase exception is
+`label-micro` for small badges and table column headers.
 
 ### Weights
 
-`regular` (400), `medium` (500), `semibold` (600), `bold` (700) are the working set. `light`, `extralight`, `thin`, `extrabold`, `black` exist as primitives but are not used in product UI.
+Phorest uses three weights from Inter Variable: 400 (regular), 500
+(medium), 700 (bold). Lighter and heavier weights are not used.
 
-Rules:
-- Body: `regular`
-- Labels, list item names, button labels: `medium`
-- Section headings inside cards/slideovers: `semibold`
-- Page titles, currency totals: `bold`
-- Never combine more than two weights in a single dense view
-- Numbers (currencies, durations, counts) are tabular when stacked, prefer `medium`
-- Avoid uppercase for body content; allowed for short badge labels at 12px
+- **400:** Body, running text.
+- **500:** Numeric data, micro-labels.
+- **700:** Section heads, page titles, statistics.
 
----
+Italic available for inline emphasis in body copy. Not used in headings,
+buttons, or labels.
 
-## 4. The outlined control (system signature)
+## Layout
 
-Phorest's interactive controls share a visual signature: a **1px black outline** (`border/primary`) on a coloured or white fill, with `radius/sm` (4px) corners and `strokeAlign: inside`. Several controls add a **2px bottom rail** on top of the 1px outline, which collapses or swaps on press for tactile feedback.
+Phorest is operational software for tablets in landscape (primary, ~1024px)
+and desktops (≥1280px). Phones are not a supported product surface. The
+layout system prioritizes density over breathing room.
 
-This is the most distinctive single pattern in the system. Generated UIs that miss it will not look like Phorest.
+### Grid
 
-### Where the outline appears
+All spacing values are multiples of 4. The base grid step is 8px. When
+choosing a spacing value, use the tokens defined in the front matter; do
+not introduce off-grid values (6px, 10px, 14px).
 
-| Component | 1px outline | 2px bottom rail | Press behaviour |
-|---|---|---|---|
-| Button (Primary, Secondary, Destructive) | yes | yes | Swap: 2px **top** rail, 1px bottom (pressed-down optical effect) |
-| Button (Tertiary) | yes, gray-400 | no | No change |
-| Tabs pill (`.pillsParts-item`) | yes | yes when selected | (no pressed state) |
-| Toggle (`.toggle`, `Checked=true`) | yes | no | (no pressed state) |
-| Secondary nav item (hover) | yes | yes on hover | No change |
-| Input field | yes | no | No change |
+Pages use a 12-column grid for desktop layouts (≥1024px) and a fluid
+stack for narrower viewports. Common column splits: 6/6 for two-pane
+layouts, 8/4 for content-with-sidebar, 9/3 for content with a slim
+secondary column.
 
-### Press behaviour, in detail
+### Spacing Rules
 
-For controls with the bottom rail:
-- **Primary, Destructive button on press**: `strokeTopWeight: 2, strokeBottomWeight: 1` (the rail moves to the top, the bottom collapses). Optical "pressed down" effect.
-- **Secondary button on press**: rail removed entirely, uniform `1px` all edges.
-- **Tertiary button on press**: no change (never had a rail).
+Choose spacing values by the *relationship* between elements:
 
-### Disabled
+- **Tightly related** (icon + label, label + value): `{spacing.2}` (8px)
+- **Related items in a row** (form fields side-by-side): `{spacing.3}` (12px)
+- **Default padding inside cards:** `{spacing.4}` (16px)
+- **Generous card padding:** `{spacing.6}` (24px)
+- **Sections within a page:** `{spacing.6}` (24px) or `{spacing.8}` (32px)
+- **Major page divisions:** `{spacing.8}` (32px) or larger
 
-Disabled is universal: `opacity: 0.5` on the whole element. No separate disabled-coloured tokens. The outline and rail remain visible at half opacity.
+Whitespace in Phorest groups elements; it does not separate them. Tight
+gaps signal "these belong together." Larger gaps signal "these are
+distinct concerns." When choosing between two spacing values, prefer
+the tighter one.
 
-### Stroke colour
+### Container Padding
 
-- Filled and outlined controls: `border/primary` (black)
-- Tertiary button: `border/light` (gray-400)
-- Inputs in error state: `border/error` (red-600)
+Page horizontal padding scales with the viewport:
 
----
+| Viewport | Page padding |
+|----------|--------------|
+| ≤768px (narrow) | 16px |
+| ~1024px (tablet landscape, primary) | 24px |
+| ~1280px (small desktop) | 32px |
+| ≥1440px (wide desktop) | 64px |
+| ≥1920px (extra-wide) | 80px |
 
-## 4b. Iconography
+### Fixed Layout Elements
 
-Phorest uses **Heroicons** (Tailwind Labs) as the primary icon library, supplemented by **Lucide** where Heroicons does not cover the case. All icons are flat single-path SVGs, designed to inherit colour from their parent.
+- **Sidebar:** Fixed-left on desktop (~240px wide), full page height,
+  white surface, no shadow. Collapses to a drawer below 1024px.
+- **Page header:** Sits inside the page column. Not a separately-shadowed
+  bar across the viewport. Page title at left, secondary actions at right.
+- **Action bar:** Bottom-fixed bar; appears only when multi-select is
+  active on a list view. White surface, `shadow-lg`.
+- **Slideovers:** Slide in from the right. `bg-black/50` backdrop. Use
+  the theme-blue footer treatment for the bottom action bar (see Colors
+  → Theme).
+- **Modals:** Fade in, center-screen. `bg-black/50` backdrop. Same
+  theme-blue footer treatment as slideovers.
 
-### Library and CDN
+## Elevation & Depth
 
-- Heroicons v2.2.0 (current). Outline style is the default.
-- CDN (jsDelivr): `https://cdn.jsdelivr.net/npm/heroicons@2.2.0/24/outline/{name}.svg`
-- Browse and search: `https://heroicons.com`
-- For names not in Heroicons, fall back to Lucide: `https://lucide.dev`
+Phorest is flat. Static UI sits at zero elevation. Borders, not shadows,
+distinguish surfaces.
 
-### Default size and stroke
+### Shadow
 
-- Default size: **24×24 px**. This matches the Figma icon components.
-- Stroke width: as authored by Heroicons (1.5px outline, do not override).
-- Colour: **inherits from parent text colour** via `stroke="currentColor"`. To recolour an icon, set the parent's text colour token.
+A single shadow value is used in the system:
 
-### Sizing in context
+`shadow: 0 4px 6px -1px rgb(0 0 0 / 0.10), 0 2px 4px -2px rgb(0 0 0 / 0.10)`
 
-- Inside buttons: 20×20 (slightly smaller than the 24px default, fits the 40px button height with 10px vertical padding).
-- Inside list items, menu items, sidebar items: 24×24 (default).
-- Inside badges: 16×16.
-- Inside the Numpad and large inputs: 24×24.
+Applied to: dropdown menus, date pickers.
 
-### Colour binding
+Not applied to: cards, modals, slideovers, popovers, alerts, toasts, or
+any static UI.
 
-Icons inherit from the surrounding text colour. Concretely:
+### Elevation Without Shadow
 
-| Context | Token |
-|---|---|
-| Default icon on white surface | `icon/default` (black) |
-| Muted icon (menu title, banner) | `icon/tertiary` (gray-400) |
-| Status icons (alert, badge) | `icon/status/{role}` (role-600) |
-| Icon on dark surface | `icon/inverted` (white) |
-| Input left icon | currently binds to `text/secondary` (gray-500), a known category mismatch |
+Surfaces are differentiated by borders, not by shadow:
 
-Do not set `fill` on icon SVGs. Heroicons outline icons use `stroke`, not `fill`.
+- **Cards:** 1px `border` (#E5E7EB) on white surface. No shadow at rest
+  or on hover.
+- **Modals:** 1px border on white panel. `bg-black/50` backdrop behind.
+  The backdrop alone communicates that the modal is above the page.
+- **Slideovers:** 1px border on white panel. `bg-black/50` backdrop behind.
+  Same elevation logic as modals.
 
-### How to embed
+### Forbidden
 
-Inline SVG, with the parent setting colour:
+- No gradient backgrounds.
+- No glassmorphism, no backdrop-blur.
+- No bordered "left-accent-rail" cards (status indication lives inside
+  the card, not on its frame).
+- No purple, no pink, no off-brand decorative colors.
 
-```html
-<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" d="..." />
-</svg>
-```
+## Shapes
 
-Or img tag (less flexible for colour):
+Two radii plus a fully-round value for the toggle thumb. No exceptions.
 
-```html
-<img src="https://cdn.jsdelivr.net/npm/heroicons@2.2.0/24/outline/calendar.svg" width="24" height="24" alt="" />
-```
+- **`{rounded.DEFAULT}` (4px):** Controls — buttons, inputs, selects,
+  segmented controls.
+- **`{rounded.lg}` (8px):** Surfaces — cards, panels, modals, slideovers.
+- **`{rounded.full}` (9999px):** Toggle thumb. The only round element
+  in the system.
 
-### Common icons by use
+Do not introduce new radii. If a design feels like it needs a 6px or
+12px corner, the answer is to use 4 or 8, not to add a new value.
 
-When the agent is unsure which icon to use, prefer these defaults:
+## Icons
 
-| Use | Heroicon name |
-|---|---|
-| Calendar / appointments | `calendar` |
-| Clients / users | `users`, `user` for single |
-| Marketing | `megaphone` |
-| Purchase / shopping | `shopping-bag` |
-| Manager / dashboard | `chart-bar` |
-| Settings | `cog-6-tooth` |
-| Search | `magnifying-glass` |
-| Close | `x-mark` |
-| Confirm / check | `check` |
-| More options | `ellipsis-horizontal` or `ellipsis-vertical` |
-| Add | `plus` |
-| Edit | `pencil` |
-| Delete | `trash` |
-| Next / forward | `chevron-right` |
-| Back | `chevron-left` |
-| Expand / collapse | `chevron-down` / `chevron-up` |
-| Notification | `bell` |
-| Help | `question-mark-circle` |
-| Information (in Alerts) | `information-circle` |
-| Warning (in Alerts) | `exclamation-triangle` |
-| Error (in Alerts) | `x-circle` |
-| Success (in Alerts) | `check-circle` |
+Phorest uses **Heroicons** as the icon library. Outline style is the
+default; solid is used only for filled status chips and rare emphasis
+moments.
 
-### Avatar
+### Sizing
 
-Avatars are separate from icons but follow a similar simple rule. Phorest's avatar pattern:
+- **16px (`h-4 w-4`):** Inside dense lists and buttons.
+- **20px (`h-5 w-5`):** Default size everywhere else.
+- **24px (`h-6 w-6`):** Sidebar navigation and empty-state hero icons.
 
-- **Default colouring is neutral gray.** `bg/neutral-dark` (gray-200) surface, `text/primary` initials. There is **no deterministic colouring derived from the user's name** (no "Anna gets blue, Carlos gets red" rule).
-- Callers may explicitly override the background colour when context calls for it.
-- Sizes: 24×24 (xs), 32×32 (sm), 40×40 (md, the default in stacked lists), 48×48 (lg), 56×56 (xl).
-- Shape: circle (`radius/full`).
-- Initials fallback: first letter of first and last name, in `text/primary`, `medium` weight, font-size scaled to half the avatar height.
+Avatars and decorative marks aside, no icon exceeds 24px.
 
----
+### Stroke and Color
 
-## 5. Component Stylings
+Heroicons default stroke weight (1.5px). No mixing with thinner or
+heavier icon sets. Icons inherit text color via `currentColor`; muted
+icons take `{colors.ink-muted}`, actionable icons take `{colors.ink}`.
 
-Every component listed below is in the Figma file under a `✅` page and is stable for generation. Components not listed (Cards, Stepper, Combobox, IconButton, Modal primitive) are pre-audit or WIP - do not generate them.
+### Format
 
-### Button (`Button`)
+Icons are consumed as inline SVG, not an icon font. Emoji and unicode
+glyphs are not used as icons in product UI.
 
-Single size: **40px tall**, padding `0/12/0/12`, gap `4`, radius `4`, 32 variants.
+## Components
 
-Variant matrix: `Variant: primary | secondary | tertiary | destructive` × `State: default | hover | pressed | disabled` × `Icon only: No | Yes` (Icon only = Yes gives a 40×40 square button).
+### Buttons
 
-Boolean properties (`Show left icon`, `Show right icon`, `Show label`, `Left icon`, `Right icon`, `Label`) control content presence without expanding the variant matrix.
+One size: 40px tall. One radius: 4px. 12px horizontal padding. Three
+variants in regular use (primary, secondary, tertiary). Destructive is
+not documented in this version (see Known Gaps).
 
-| Variant | Fill | Stroke | Text |
-|---|---|---|---|
-| primary | `button/primary/bg-default` (yellow-400) | `border/primary` (black) + 2px bottom rail | `text/primary` |
-| secondary | `bg/white` | `border/primary` (black) + 2px bottom rail | `text/primary` |
-| tertiary | transparent | `border/light` (gray-400), uniform 1px | `text/primary` |
-| destructive | `button/destructive/bg-default` (red-600) | `border/primary` (black) + 2px bottom rail | `text/inverted` |
+#### Common Behavior
 
-Hover: 200-step jump (`button/primary/bg-hover` = yellow-500, `button/destructive/bg-hover` = red-800). Disabled: `opacity: 0.5`. Press behaviour: see The outlined control above.
+Primary and secondary buttons share the system's signature stroke
+convention: **1px black border on three sides (top, left, right), plus
+a 2px black border on the bottom edge**. On press, the bottom edge
+collapses to 1px and the button translates 1px downward. This is the
+system-wide click feedback — the button visibly "depresses" into the
+surface.
 
-Use rule: **one Primary per view.** Secondary and Tertiary surround it. Destructive replaces Primary when the action is destructive.
+Tertiary buttons drop the brutalist signature. They use a 1px
+`{colors.border-strong}` border on all four sides — no 2px bottom edge,
+no press nudge.
 
-### Input (`Input`)
+Disabled state for all variants: 50% opacity on the existing fill plus
+`cursor: not-allowed`. No special disabled fill color.
 
-24 variants. Axes: `Variant: field | area` × `State: default | hover | active | disabled` × `Error: true | false` × `Numpad: true | false` (Numpad applies only to `field`; `area` carries `Numpad=false` as a placeholder).
+#### Primary
 
-- Stroke: `border/primary` (black), 1px, no bottom rail
-- Stroke in error state: `border/error` (red-600)
-- Radius: 4px (`radius/sm`)
-- Right icon stroke: `icon/status/default` (non-error) or `icon/status/error` (error). Asymmetric with left icon (`text/secondary`) - intentional, right icon is the primary affordance
-- Resize indicator on Area variants: `border/light`
-- Disabled: `opacity: 0.5`
+`{component.button-primary}` — Amber background with black text, 1px
+black stroke on three sides plus 2px bottom edge. Reserved for the
+dominant CTA on a view. **One per view, and not every view has one.**
+Most operational surfaces do not surface a primary button.
 
-`Numpad: true` adds a tappable affordance next to the input that summons an on-screen numpad (touch/POS surface). The `.numpad` keypad surface is its own component.
+#### Secondary
 
-### Checkbox (page: Checkbox)
+`{component.button-secondary}` — White background with black text, same
+stroke convention as primary (1px on three sides, 2px on the bottom).
+**The workhorse of the system.** The brutalist signature lives here,
+not on the primary. Used for the majority of action buttons across the
+product.
 
-Three components: `.checkboxParts-Item` (the 20×20 box, 9 variants), `single` (box + label + help text), `list-checkbox` (group with group label/hint/description).
+Hover state: background shifts to `{colors.surface-muted}` (#F3F4F6) —
+a visible mid-gray rather than a near-white tint. The contrast on hover
+is deliberate, not subtle.
 
-`.checkboxParts-Item` axes: `Checked: true | false` × `State: default | hover | disabled` × `Indeterminate: false | true`.
+#### Tertiary
 
-| State | Fill | Stroke |
-|---|---|---|
-| Checked, default | `bg/status/success-dark` (green-600) | (none, fill carries the colour) |
-| Checked, hover | `bg/status/success-darker` (green-800) | `border/status/success-darker` |
-| Unchecked, default | `bg/neutral-light` | `border/light` |
-| Unchecked, hover | `bg/neutral-dark` | `border/light` |
-| Disabled | per state above | per state above, at `opacity: 0.5` |
+`{component.button-tertiary}` — White background with black text, 1px
+`{colors.border-strong}` (#9CA3AF) border on all four sides. No 2px
+bottom edge. No press nudge. Lower visual weight than secondary.
 
-The check glyph itself is `bg/white` on the green fill. The 200-step hover jump (green-600 → green-800) is the system rule for status-bg hover states.
+Used as a third action option when secondary is too heavy — typically in
+forms with multiple optional actions, or in dialogs where the cancel
+action needs to be present but visually subordinate.
 
-Radius: 4px (`radius/sm`). Size: 20×20.
+#### Icon Buttons
 
-### Radio (page: Radio)
+When a button shows only an icon (no text label), it becomes a 40×40
+square. The 1px+2px stroke convention applies to primary and secondary
+icon buttons. Tertiary icon buttons follow the tertiary border
+convention.
 
-Two patterns share the page:
+### Input
 
-**Inline radio** - `.radioParts-Item` (20×20 circle, 6 variants), `single`, `RadioList` (vertical or horizontal stack).
+One size: 40px tall. 12px horizontal padding. 4px radius. Covers text
+inputs, selects, segmented controls, and textareas.
 
-Axes: `Checked × State`. Same fill model as Checkbox: selected → `bg/status/success-dark/-darker`, selected stroke → `border/status/success-darker`, unselected fill → `bg/neutral-light` (default/disabled) or `bg/neutral-dark` (hover), unselected stroke → `border/light`. Inner indicator dot: `bg/white`. Radius: `radius/full` (circle).
+#### Default
 
-**Radio card** - `.radioCardParts-Item` (bordered card with embedded radio + title + description, 4 variants), `RadioCardGroup`.
+`{component.input}` — White background, body text, **1px black stroke**
+on all four sides. The same pure black (#000000) used for ink, applied
+as the input's border. This matches the brutalist treatment of buttons
+but without the 2px bottom edge.
 
-| State | Fill | Stroke |
-|---|---|---|
-| Default | `bg/white` | `border/light` |
-| Hover | `bg/neutral-dark` | `border/darker` (gray-900) |
-| Checked, default | (same as default with embedded radio checked) | `border/light` |
-| Checked, hover | `bg/neutral-dark` | `border/darker` |
+#### Focus
 
-Card padding: 16px, gap 8px, radius 6px (`radius/md`). The two patterns are intentionally separate components - one is a form control, the other is a visual selection card.
+On focus, the stroke thickens to 2px on all four sides — **without
+layout shift**. The implementation uses an inset box-shadow rather than
+a wider border:
 
-### Toggle (page: Toggle)
+`box-shadow: inset 0 0 0 2px {colors.ink}`
 
-`.toggle` (the switch primitive, 6 variants) and `Toggle` (switch + label composition).
+The 1px outer border remains; the inset shadow paints over it to give
+the appearance of a 2px stroke. This prevents the input from "jumping"
+1px when focus enters or leaves. Critical in dense forms where every
+field is adjacent — any layout shift propagates visually.
 
-Axes on `.toggle`: `Checked: true | false` × `State: default | hover | disabled`.
+No focus ring, no outer outline, no color change. The thickened black
+stroke alone signals focus.
 
-| Checked | Fill | Stroke |
-|---|---|---|
-| true | `bg/status/success-dark` (green-600) | `border/primary` (1px black) |
-| false | `bg/neutral-dark` | `border/primary` (1px black) |
+#### Disabled
 
-Hover on `Checked=true`: `bg/status/success-darker` (green-800), 200-step jump. Knob: 20×20 white circle, `bg/white`. Track: 44×24, `radius/full`. Disabled: `opacity: 0.5`.
+50% opacity on the existing background and text. The stroke remains 1px
+black. Cursor: `not-allowed`.
 
-The black 1px outline on a green fill is the outlined-control pattern in its filled-state form. Toggle and Checkbox share the same green-600 / green-800 fill semantics.
+#### Error
 
-### Menu (page: Menu)
+When an input is in an error state, the stroke shifts from black to
+`{colors.danger}` (#DC2626). Same 1px thickness at rest, same inset
+shadow treatment for the 2px on focus, but in red rather than black.
+Error messages appear inline beneath the field in `{colors.danger-ink}`
+(#991B1B).
 
-`Menu` (the surface) and `.parts/MenuItem` (the row).
+### Toggle
 
-**Menu surface**: vertical auto-layout, hug content, `bg/white` fill, `border/lighter` 2px stroke, `radius/lg` (8px) corners. Shadow: Tailwind `shadow-xl` (hardcoded, pending shadow token family).
+Pill-shaped track with a round white thumb. **1px black stroke** around
+the track. Two states: off and on.
 
-**MenuItem axes**: `Type: Title | Item | Divider` × `State: Default | Hover`.
+#### Off
 
-| Type | Layout | Fill | Text |
-|---|---|---|---|
-| Title | 8/16/8/16 padding, 12 gap | transparent | `text/tertiary` (gray-400) |
-| Item | 8/16/8/16 padding, 12 gap | `bg/white` (default) / `bg/neutral` (hover) | `text/primary` |
-| Divider | flat rectangle | `border/lighter` | - |
+`{component.toggle}` — Gray track (`{colors.surface-muted}`, #F3F4F6),
+40px wide × 24px tall, fully rounded, 1px black border. White thumb
+(20×20, `{rounded.full}`) sits at the left of the track.
 
-Booleans on Item: `Show checkbox`, `Show icon`, `Icon`, `Show label`, `Show alt label`, `Alt label`, `Show toggle`, `Show selected check`.
+#### On
 
-Icons in MenuItem use `text/primary` (black) by design - same emphasis as the label. Generation rule: a Menu component holds 10-15 rows by default; designers hide what they don't need rather than extending (per the "more children than needed" principle).
+`{component.toggle-on}` — Same dimensions and 1px black stroke; the
+track fill shifts to brand green (`{colors.success}`). The white thumb
+slides to the right of the track. **Brand green, not amber.** Amber is
+reserved for action; green signals state.
 
-### Alert (`Alerts`)
+#### Checkboxes
 
-8 variants. Axes: `Variant: error | info | success | warning` × `Layout: horizontal | vertical`.
+Checkboxes follow the same on/off color logic: the unchecked state is
+white with a 1px black border, the checked state fills with
+`{colors.success}` and shows a white checkmark. Same principle — green
+signals state.
 
-| Element | Token |
-|---|---|
-| Fill | `bg/status/{role}-lighter` |
-| Stroke | `border/status/{role}` (1px) |
-| Radius | 6px (`radius/md`) |
-| Padding | 12/12/12/12 |
-| Gap | 8 |
-| Title text | `text/status/{role}` |
-| Description text | `text/status/{role}` |
+### Card
 
-Booleans: `Show title`, `Title`, `Show description`, `Description`, `Show actions`, `Show action icon`, `Action icon`, `Action label`.
+The default content container. White surface, 8px radius, 1px border,
+flat by default.
 
-### Badge (`Badge`)
+#### Structure
 
-10 variants. Axes: `Variant: info | error | neutral | success | warning` × `State: default | hover`.
+`{component.card}` — `{colors.surface}` (white) background,
+`{rounded.lg}` (8px) radius, 1px `{colors.border}` (#E5E7EB) border on
+all sides. Default padding: 16px. Generous padding: 24px for cards with
+substantial content.
 
-| Element | Token |
-|---|---|
-| Fill | `bg/status/{role}-light` (default state) |
-| Radius | `radius/full` (9999, pill shape) |
-| Padding | 2/8/2/8 |
-| Gap | 2 |
-| Text | `text/status/{role}` |
-| Font | 12px medium |
+#### Elevation
 
-**Known regression** (flagged for follow-up): hover state currently renders at the same colour as default, because the old `-dark` 200-stop tokens were retired during the Checkbox audit. Badge hover is a tracked fix. Generated UIs should pair `Variant` with the correct status colour and not attempt to manually darken hover.
+Cards do not have shadow at rest. The 1px border alone defines the
+card's edge. Cards do not have a hover state in static contexts — when
+a card is itself interactive (clickable, draggable), the parent control
+governs the interaction style, not the card's surface.
 
-### System feedback (`Toast`, `Actionbar`)
+#### Title and Content
 
-**Toast** - 5 variants. Axes: `Variant: success | error | info | warning` × `Stacked: false | true`.
+When a card has a title, it sits at the top-left in `{typography.h3}`
+(18px, weight 700, line-height 1.25). Optional tertiary actions sit
+at the top-right. The body content area uses `{typography.body}`
+(16px regular) for prose or table content.
 
-- Surface: `bg/white`, `radius/lg` (8px), `shadow-xl`
-- Status-tinted left edge (status icon and accent inside the toast)
-- Wrapper carries a `32/32/0/0` outer padding (intentional positioning offset for top-right placement, do not change)
-- Booleans: `Show actions`, `Show icon`, `Title`, `Description`
+No colored left-border accent rail. No top-border color stripe. Status
+indication, when needed, lives inside the card (chips, leading icons)
+— never on the card's frame.
 
-**Actionbar** - appears at the bottom of the screen on multi-select.
+### Slideover
 
-- Fill: `bg/banner` (yellow-400)
-- Padding: 16/12/16/12
-- 2 variants: `Show actions: true | false`
+Right-sliding panel for forms, detail views, and multi-step flows. The
+most common contextual surface in the product after cards.
 
-### Sidebar (page: Sidebar)
+#### Structure
 
-Global left-rail navigation. Composed of `Sidebar` (the container, 8 variants), `.sidebarParts-Item` (each row, 6 variants), and a set of icon variants for each top-level destination (Appointments, Clients, Marketing, Purchase, Manager, Support, Lock, Clockin, Profile, Chat).
+`{component.slideover}` — White panel, slides in from the right, full
+viewport height, no shadow, no rounded corners. 16px padding throughout
+the panel.
 
-**Sidebar container axes**: `Contrast: dark | light` × `Collapsed: false | true` × `Platform: electron | web`.
+Two width variants:
 
-`Contrast` controls which row treatment to use based on the chosen background colour (not a theme switch).
+- **`{component.slideover-narrow}` (520px):** Default width. Used for
+  forms, detail views, single-step flows.
+- **`{component.slideover-wide}` (680px):** Used when content requires
+  more horizontal room — tables, or flows where keeping critical
+  information above the fold matters.
 
-**Sidebar item axes**: `Selected: false | true` × `Contrast: dark | light | n-a` × `State: default | hover`.
+The page behind the slideover dims to `bg-black/50`. Clicking the
+dimmed area closes the slideover.
 
-- Padding: 8/12/8/12, gap 12, radius 8 (`radius/lg`)
-- Hover adds the outlined-control treatment: `t1/r1/b2/l1` rail
-- Selected: `sidebar/item/bg-selected` (white)
-- Default fill: `sidebar/item/bg-default-on-light` (white @ 20%) or `sidebar/item/bg-default-on-dark` (black @ 5%) depending on Contrast
-- Hover border: `sidebar/item/border-hover-on-light` (white) or `sidebar/item/border-hover-on-dark` (black)
+#### Header
 
-### Secondary navigation (page: Secondary navigation)
+Always present. Contains:
 
-A vertical nav panel used inside product surfaces (settings, admin areas), separate from the global Sidebar.
+- **Title** (`{typography.h2}`) at the top-left.
+- **Close button** (tertiary icon button) at the top-right. Always
+  present.
+- **Back button** (tertiary icon button) at the top-left, before the
+  title. Present only when the slideover is inside a flow with a
+  previous step. First slideover in a flow has no back button;
+  subsequent slideovers do.
 
-- Container: 240×variable, padding 16/20/16/20, gap 16, fill `bg/white`, border `border/light`
-- Section header: `.secondaryNavParts-SectionHeader`, 8/16/8/16 padding
-- Item: `.secondaryNavParts-Item`, 3 variants (`State: default | hover | pressed`)
+The header has no background fill — it sits on the white panel surface.
 
-| State | Fill | Text | Icon |
-|---|---|---|---|
-| default | transparent | `secondaryNav/item/text-default` (sky-900) | `secondaryNav/item/icon-default` (sky-900) |
-| hover | `secondaryNav/item/bg-hover` (sky-50), `t1/r1/b2/l1` rail | as default | as default |
-| pressed | `secondaryNav/item/bg-pressed` (sky-900) | `secondaryNav/item/text-pressed` (white) | `secondaryNav/item/icon-pressed` (white) |
+#### Footer
 
-Item dimensions: 16/4/16/4 padding for label, radius 4.
+`{component.slideover-footer}` — Theme-blue (`{colors.theme}`, #7DD3FC)
+background. Contains the primary action button(s) for the slideover.
 
-### Tabs (page: Tabs)
+**Not always present.** Slideovers without a primary action (read-only
+detail views, informational displays) have no footer. When a footer is
+present, theme blue marks it as the action bar.
 
-Two patterns: pills (`.pillsParts-item`) and underline (`.underlineParts-item`).
+**Theme blue appears here and in the matching modal footer. Nowhere
+else.** This is the entire scope of theme blue in the system.
 
-**Pills**: 4 variants. `isSelected: True | False` × `States: Default | Hover`. Selected = same treatment as a Primary button (`button/primary/bg-default` fill, `border/primary` stroke, `t1/r1/b2/l1` rail, 4px radius). Unselected = transparent fill, no stroke, `text/primary`. Padding 10/18/10/18.
+#### Content
 
-**Underline**: 2 variants. `isSelected: True | False`. No fill, no full border. Selected adds a bottom-edge accent (per styleguide); unselected is plain text in `text/secondary`.
+The content area between header and footer scrolls when content exceeds
+viewport height. 16px padding throughout, matching the panel's overall
+padding rhythm.
 
-**Tabs container**: 2 variants. `isPills: False | True`. Underline-style container has a 1px bottom border in `border/light` and `bg/overlay/light` fill. Pills container has no border.
-
-### Tables (page: Tables, tokens only - structural pass pending)
-
-Composed of `columns` (column variants), `.cells` (31 cell variants), `.table footer` (Pagination / Totals), `.table topbar` (filter chrome), empty-state components, and a `Table template`.
-
-| Surface | Token |
-|---|---|
-| Header background | `table/header-bg-default` (sky-900) |
-| Header hover | `table/header-bg-hover` (sky-800) |
-| Header text | white |
-| Row background | `bg/white` (default) / `bg/neutral` (Grey rows) |
-| Row hover | `table/row-bg-hover` (blue-100) |
-| Totals row | `table/row-bg-totals` (blue-200) |
-| Row border | `border/light` (gray-400) on bottom only |
-| Cell text | `text/primary` |
-| Cell muted text/icon | `text/secondary` / `text/tertiary` |
-| Cell padding | 14/12/14/12 (default) |
-
-The table palette uses sky/blue intentionally - distinct from the system-wide neutral surfaces - and is settled (not pending review like `theme/*`).
-
-The `.cells` matrix is still mid-restructure (31 variants across `Type × Background × State`). For generation, treat the bound types as available: `Text only`, `Numbers only`, `Double Text + Avatar`, `Badge`, `Actions`, `Checkbox`, `Toggle`, `Header`, `Header-Checkbox`.
-
-### Overlays (page: Overlays)
-
-Five components on the page. The system has no generic Modal primitive - modal compositions live on the Templates page (off-limits for generation).
-
-**Overlay** (the backdrop): full-bleed, `bg/overlay/dark` (gray-600 @ 75%). Used behind any modal/slideover.
-
-**Numpad** (standalone): 368×456, `theme/bg-default` (sky-300) surface, `theme/bg-accent` (sky-400) header band, 6px radius, `shadow-xl`. Booleans: `Show input selector`, `Show banner`, `Show leading add-on`, `Show right icon`, `Show right text`.
-
-**`.numpadParts-BigInput`**: the large value display at the top of the numpad. `bg/white` fill, `border/primary` 1px stroke, 4px radius, 0/12/0/12 padding.
-
-**`.numpadParts-Banner`**: 4 variants (`Type: success | error | neutral | toggle`). Fill aliases to the matching `bg/status/{role}-lighter`. Used inside the numpad surface for inline messaging.
-
-### Slideover (page: Slideover) - shell only
-
-Slideover is a right-edge sheet, full height. The system spec covers the shell; product-specific slideover types (Appointment, Payment, Select Client, etc.) live as compositions in Figma but are not for generic generation.
-
-**Shell parts**:
-- `.parts/slideover-header`: 480×68, `bg/white`, 12 gap, `t0/r0/b1/l0` border (`border/lighter` divider on bottom)
-- Body slot: scrollable content area, `bg/white`
-- `.parts/slideover-footer`: 3 variants (`Type: Floating + | Single button | Multiple buttons`), 480×58, 0/16/0/16 padding, top border (`t1/r0/b0/l0`)
-
-Compose: header + body + footer in a single vertical stack, full screen height, width `max-w-md` (or wider for specific use cases). Background is `bg/white`. Backdrop is `Overlay` (`bg/overlay/dark`).
-
-### Lists (page: Lists)
-
-`.listitem` (the row, 2 variants), `.listheader` (group header), `.listsupporting` (supporting content row), `Lists` (a stacked container).
-
-**`.listitem`** axes: `State: Default | hover`. Booleans: `Avatar`, `Badge`, `Chevron`, `Main content`, `Description`, `Supporting icons`, `Checkbox`.
-
-- Row: 512×80, padding 18/24/18/24, gap 12, `bg/white`
-- Divider: `t0/r0/b1/l0` border in `border/lighter` (bottom-only)
-- Hover: row fill becomes `bg/neutral`
-
-**`.listheader`**: 376×28, fill `bg/neutral-light` (gray-50), divider in `border/lighter`. Used as sticky group headers in scrolling lists.
-
-Stacked list pattern: avatar + main content (`text/primary`, 14px medium) over supporting text (`text/secondary`, 12px regular), with optional badge, chevron, or checkbox slots.
-
-### Date picker (page: Date picker)
-
-`Date picker` set with 2 variants: `Type: Day view | With Today button`. 376×268, 12/12/12/12 padding, 20 gap, 4 radius.
-
-A standalone calendar surface for picking a date. No range/multi-select variant in the system yet.
-
-### File upload (page: File upload)
-
-`Upload file` set with 2 variants: `Upload type: Image | File`. Booleans: `Required`, `Title`. Used inside forms for attaching files or images.
-
-### Chat (page: Chat)
-
-The system contains only `Chat.typing` - a typing-input composition (740×112, padding 28/20/8/20). 2 variants: `State: Default | Disabled`. Boolean: `Attachment button`. No message-bubble component exists in the system.
-
-### Manager screen card (page: Manager screen)
-
-`Manager screen card` with 2 variants: `State: Default | Hover`. 216×64, 12/12/12/12 padding, 12 gap, 4 radius, `border/lighter`. A medium-sized card surface for the Manager dashboard.
-
----
-
-## 6. States
-
-Phorest's state vocabulary across interactive components:
-
-- **default** - resting state
-- **hover** - pointer over the element. On Buttons and other outlined controls, hover steps to the next colour in the family (200-step jump for status hovers like green-600 → green-800)
-- **pressed** - transient feedback during mouse-down. Buttons swap the bottom rail to top. Also reused for sticky selection in button groups via `aria-pressed`
-- **active** - persistent in-use state (Inputs: cursor is in the field, user is typing). Inputs use `active`, Buttons use `pressed`
-- **disabled** - non-interactive. Universally `opacity: 0.5`. No separate disabled colour tokens
-
-Components implement only the states they need. Inputs use `default / hover / active / disabled`. Buttons use `default / hover / pressed / disabled`. Selection components (Checkbox, Radio, Toggle) use `default / hover / disabled` with the selected/unselected axis carrying the rest of the variation.
-
----
-
-## 7. Layout
-
-### Spacing tokens
-
-| Token | Pixels | Token | Pixels |
-|---|---|---|---|
-| `spacing/0` | 0 | `spacing/9` | 40 |
-| `spacing/0-5` | 2 | `spacing/10` | 48 |
-| `spacing/1` | 2 | `spacing/11` | 56 |
-| `spacing/2` | 4 | `spacing/12` | 64 |
-| `spacing/3` | 8 | `spacing/13` | 72 |
-| `spacing/4` | 12 | `spacing/14` | 80 |
-| `spacing/5` | 16 | `spacing/15` | 88 |
-| `spacing/6` | 20 | `spacing/16` | 96 |
-| `spacing/7` | 24 | `spacing/24` | 96 |
-| `spacing/8` | 32 | `spacing/32` | 128 |
-
-**Important**: Phorest's spacing scale does not match Tailwind's standard scale. `spacing/2` is 4px (Tailwind's `spacing-1`), `spacing/3` is 8px (Tailwind's `spacing-2`), `spacing/4` is 12px (Tailwind's `spacing-3`). Generation rule: bind to the **value** you want, not the token name. The mismatch is a known limitation pending future review.
-
-Typical usage:
-- 4px - icon-to-text gap, tight chip padding
-- 8px - list item vertical rhythm
-- 12-16px - default form field gap, card inner padding
-- 24px - section-to-section spacing inside a card
-- 32-48px - page-level section dividers
-
-### Radius tokens
-
-| Token | Pixels | Typical use |
-|---|---|---|
-| `radius/none` | 0 | (rare) |
-| `radius/xs` | 2 | Inline badges, tight pills |
-| `radius/sm` | 4 | Buttons, inputs, tabs, secondary nav items (the control radius) |
-| `radius/md` | 6 | Cards, dropdowns, alerts, radio cards |
-| `radius/lg` | 8 | Menu surface, toast, sidebar items |
-| `radius/xl` | 12 | Large panels |
-| `radius/2xl` | 16 | Featured cards |
-| `radius/3xl` | 24 | (rare) |
-| `radius/4xl` | 32 | (rare) |
-| `radius/full` | 9999 | Pills, circles (badges, avatars, radio buttons, toggle track) |
-
-### Border widths
-
-`border/width/xs` 1px (default), `border/width/s` 2px (bottom rails, menu surface), `border/width/m` 4px, `border/width/l` 8px, `border/width/xl` 12px.
-
-### Grid and container
-
-Tablet-first (1024px). Multi-column forms collapse from 2-column to single column below `lg`. Tables maintain horizontal scroll rather than reshape rows.
-
-### Phorest token → Tailwind class mapping
-
-**Critical**: Phorest's token names look similar to Tailwind utility classes but **the names and the values do not always match**. Generate against the **resolved pixel value**, not against the matching-looking Tailwind class name.
-
-Reference table (use this any time you would otherwise reach for a Tailwind utility based on a token name):
-
-| Phorest token | Resolves to | Tailwind v3 class | Notes |
-|---|---|---|---|
-| `radius/xs` | 2px | `rounded-sm` | Tailwind `rounded-sm` happens to match |
-| `radius/sm` | 4px | `rounded` | **Not `rounded-sm`** (which is 2px) |
-| `radius/md` | 6px | `rounded-md` | Tailwind `rounded-md` happens to match |
-| `radius/lg` | 8px | `rounded-lg` | Tailwind `rounded-lg` happens to match |
-| `radius/xl` | 12px | `rounded-xl` | Tailwind `rounded-xl` happens to match |
-| `radius/2xl` | 16px | `rounded-2xl` | Tailwind `rounded-2xl` happens to match |
-| `radius/full` | 9999px | `rounded-full` | |
-| `spacing/2` | 4px | `p-1`, `gap-1`, `m-1`, etc. | **Not Tailwind's `2`** (which is 8px) |
-| `spacing/3` | 8px | `p-2`, `gap-2`, `m-2`, etc. | **Not Tailwind's `3`** (which is 12px) |
-| `spacing/4` | 12px | `p-3`, `gap-3`, `m-3`, etc. | **Not Tailwind's `4`** (which is 16px) |
-| `spacing/5` | 16px | `p-4`, `gap-4`, `m-4` | |
-| `spacing/6` | 20px | `p-5`, `gap-5`, `m-5` | |
-| `spacing/7` | 24px | `p-6`, `gap-6`, `m-6` | |
-| `spacing/8` | 32px | `p-8`, `gap-8`, `m-8` | |
-| `font/size/xs` | 12px | `text-xs` | |
-| `font/size/s` | 14px | `text-sm` | |
-| `font/size/m` | 16px | `text-base` | |
-| `font/size/l` | 18px | `text-lg` | |
-| `font/size/xl` | 20px | `text-xl` | |
-| `font/size/2xl` | 24px | `text-2xl` | |
-| `border/width/xs` | 1px | `border` | |
-| `border/width/s` | 2px | `border-2` | (or `border-b-2` for the bottom rail) |
-
-**Rule of thumb**: when the doc says `radius/sm`, write `rounded` in Tailwind, not `rounded-sm`. When the doc says `spacing/3`, write `p-2`/`gap-2` etc., not `p-3`. The Phorest scale shifted by one position relative to Tailwind's, so the names mislead.
-
-When in doubt, use the **pixel value** as an arbitrary Tailwind utility: `rounded-[4px]`, `p-[8px]`. This is verbose but cannot be wrong.
-
----
-
-## 8. Depth & Elevation
-
-Phorest uses shadow sparingly, primarily to lift floating surfaces above content.
-
-| Shadow | Use |
-|---|---|
-| (none) | Flat cards on a tinted background |
-| `shadow-sm` | Dense cards in a grid |
-| `shadow` | Standard card surface |
-| `shadow-md` | Hovered card, primary card on dashboard |
-| `shadow-lg` | Dropdown menus, popovers, comboboxes |
-| `shadow-xl` | Menu, Toast, Numpad, Slideover, Modal (currently hardcoded - shadow tokens pending) |
-| `shadow-inner` | Scroll containers, keypads |
-
-Surface hierarchy (front to back):
-1. Toasts
-2. Modals + slideovers (with `bg/overlay/dark` backdrop)
-3. Dropdowns, popovers, menus
-4. Page content cards
-5. Page background (`bg/neutral-light` or `bg/white`)
-
-Never stack two `shadow-xl` surfaces directly on top of each other. Promote the lower surface to flat or use a backdrop.
-
----
-
-## 9. Do's and Don'ts
+## Do's and Don'ts
 
 ### Do
 
-- Use the **outlined control** signature on interactive surfaces (buttons, tabs, toggles, inputs, sidebar items, secondary nav items). The 1px black outline is the system's identity.
-- Apply the **2px bottom rail** on Primary, Secondary, and Destructive buttons, Tabs pill selected, Secondary nav hover. Swap top/bottom on press for Primary and Destructive.
-- Use **semantic tokens**: `text/primary`, `bg/status/success-dark`, `border/light`. Never raw hex in component code.
-- Keep the Primary action **once per view**. Secondary and Tertiary surround it.
-- Pair `bg/status/{role}-light` backgrounds with `text/status/{role}` text for inline status content.
-- Use `opacity: 0.5` for all disabled states. No separate disabled colour tokens.
-- For status hovers, use the **200-step jump** (e.g. green-600 → green-800). 100-step is too subtle.
-- Use `radius/sm` (4px) for controls, `radius/md` (6px) for cards, `radius/lg` (8px) for floating surfaces, `radius/full` for pills and circles.
-- Default to `bg/white` surfaces on a `bg/neutral-light` page background.
-- Treat numbers (money, counts, durations) with `medium` weight and tabular alignment.
+- Use `{colors.primary}` (amber #FBBF24) for **one CTA per view, maximum**.
+  Many views have no amber button at all.
+- Pair amber primary fills with `{colors.ink}` (black) text, not white.
+- Use the white-stroked secondary button as the default action button.
+  It is the workhorse.
+- Apply the 1px black stroke convention to all interactive controls
+  (buttons, inputs, toggles, checkboxes) at rest.
+- Apply the 2px bottom edge stroke to primary and secondary buttons
+  only. On press, the bottom edge collapses to 1px and the button
+  nudges 1px down.
+- Use `{colors.success}` (#059669) for toggle/checkbox on-state and
+  status chips. **Green signals state.**
+- Use `{colors.primary}` (amber) for the dominant action button.
+  **Amber signals action.**
+- Use `{colors.brand}` (teal #134E4A) for the Phorest wordmark only.
+- Use `{colors.theme}` (sky #7DD3FC) for slideover and modal footers
+  only.
+- Use tabular numerics (`{typography.numeric}`) for all numbers that
+  carry information (money, counts, durations, percentages).
+- Use sentence case for all UI text. Title Case only for proper nouns
+  (client names, service names, brand names).
+- Use the two-radius vocabulary: 4px for controls, 8px for surfaces.
+- Use borders, not shadows, to differentiate surfaces. Shadow is for
+  dropdowns and date pickers only.
 
 ### Don't
 
-- **Don't** drop the 1px black outline on outlined controls. Flat fills without the outline don't read as Phorest.
-- **Don't** mix Primary (amber) and `theme/*` (sky-blue) as competing calls-to-action. Primary always wins.
-- **Don't** use teal as a functional UI colour - it's reserved for the corporate wordmark.
-- **Don't** introduce shadows or radii outside the token scales.
-- **Don't** create per-component disabled colour tokens. Use `opacity: 0.5`.
-- **Don't** use uppercase body text or letter-spacing tricks outside small badge labels.
-- **Don't** generate components not listed in section 5. Cards, Stepper, Combobox, IconButton, and a generic Modal primitive are not yet stable in the system.
-- **Don't** generate Slideover types (Appointment, Payment, Select Client, etc.) generically - those are product compositions. Use only the Slideover shell.
-- **Don't** use animations beyond `animate-spin` (loading) and `animate-pulse` (skeletons).
-- **Don't** put two filled status buttons (success + destructive) competing in the same row. One stays filled, the other goes tertiary.
-- **Don't** extend the `theme/*` tokens beyond Numpad - they are temporary, pending product-wide direction.
+- Don't use two amber primary buttons on the same view.
+- Don't paint primary buttons green or secondary buttons amber. Green
+  signals state; amber signals action.
+- Don't use brand teal (`{colors.brand}`) anywhere except the wordmark.
+- Don't use theme blue (`{colors.theme}`) anywhere except slideover
+  and modal footers.
+- Don't add shadow to cards, alerts, toasts, or static UI. Phorest is
+  flat by default.
+- Don't use gradient backgrounds, glassmorphism, or backdrop-blur.
+- Don't use a colored left-border or top-stripe on cards. Status
+  indication lives inside the card, not on its frame.
+- Don't use purple, pink, or any decorative color not defined in the
+  Colors section.
+- Don't introduce new radii (6px, 10px, 12px, 16px). Use 4 or 8.
+- Don't introduce off-grid spacing values. Use multiples of 4.
+- Don't use uppercase for body text or headings. The single exception
+  is `{typography.label-micro}` for small badges and table column
+  headers.
+- Don't use Inter weights other than 400, 500, or 700.
+- Don't use shadow as a "more important" signal. Shadow indicates
+  float, not importance.
+- Don't apply the 2px bottom edge to tertiary buttons, inputs, or any
+  control other than primary/secondary buttons.
+- Don't apply hover backgrounds on cards or non-button surfaces. Cards
+  are flat across all states.
+- Don't introduce dark mode. Phorest is light theme only.
+- Don't use emoji as icons. Phorest uses Heroicons (outline by default).
 
----
+## Known Gaps
 
-## 10. Responsive
+This DESIGN.md is the first version of Phorest's design system
+articulated for AI tool consumption. The following are not documented
+in this version. They may be added in subsequent versions.
 
-Phorest's primary form factor is **tablet (landscape, ~1024px)** on the salon floor, with desktop secondary. Pure mobile is not a primary surface.
+### Components Not Documented
 
-| Breakpoint | Width | Context |
-|---|---|---|
-| (base) | < 640px | Phone fallback |
-| `sm` | 640px | Tablet portrait |
-| `md` | 768px | Tablet landscape (low end) |
-| `lg` | 1024px | Tablet landscape (primary), laptop |
-| `xl` | 1280px | Desktop |
-| `2xl` | 1536px | Wide desktop |
+- **Destructive button.** Used so rarely (only for genuine data
+  destruction) that v1 omits it from the component token surface.
+  Visual: flat `{colors.danger}` (#DC2626) fill, white text, no stroke.
+  Behavior matches the press/disabled rules of other buttons.
+- **Alert / banner system.** A real structural pattern in the product
+  but not yet articulated as a system-level component. Two distinct
+  classes exist (system/compliance vs. marketing/promotional) and the
+  taxonomy is still being decided.
+- **Dropdown menus.** Use the system's single shadow token and follow
+  the input/select stroke convention, but specific dimensions and
+  positioning rules are not articulated here.
+- **Tooltips.** Not documented.
+- **Status chips and badges.** Referenced in Colors and Typography
+  but not given a component token entry.
 
-Touch targets: ≥ 40px tall. Buttons default to `h-10` (40px). Numeric keypads use 56-64px keys.
+### States Not Documented
 
-Collapse rules:
-- Sidebar: fixed on `lg+`, becomes overlay/drawer below
-- Multi-column forms: 2-column above `lg`, single column below
-- Tables: preserve horizontal scroll, never reshape rows into cards
-- Slideovers: `max-w-md` on `md+`, full screen below
-- Modals: shrink `max-w-*` step-wise, stay centred
+- **Focus states (buttons).** Intentionally omitted from v1 because they
+  are rarely engaged with directly in Phorest's primary form factor
+  (tablet, touch). The inset-shadow focus mechanism for inputs is
+  documented in Components; other focus states are not.
+- **Animation tokens.** Phorest's toast, alert, and slideover
+  animations are calibrated (Apple-inspired motion language with
+  asymmetric easing) but not surfaced here as motion tokens.
 
----
+### Surface-Specific Patterns Not Documented
 
-## 11. Agent Prompt Guide
+- **Appointment screen color coding.** Each appointment on the
+  appointment diary uses a loud, vibrant color identifying the assigned
+  stylist or service. These are operational data colors, not design
+  system colors. They are out of scope for the chrome palette
+  documented in Colors.
+- **Calendar component patterns.** The appointment diary is a
+  Phorest-signature surface with its own typographic and color rules
+  (including the use of SF Pro Display for appointment cards, which is
+  the system's one font exception). Not documented at component level
+  in v1.
 
-### System prompt seed
+### Known Drift
 
-> You are generating UI for **Phorest**, a salon and spa management SaaS used on tablets (landscape, 1024px+) on the salon floor and on desktops in back office. The interface is dense, calm, and operational. Light theme only.
->
-> Use **semantic tokens** from this design system, not raw hex. The signature visual mechanic is the **outlined control**: a 1px black outline on filled or white surfaces, with `radius/sm` (4px) corners, and a 2px bottom rail on Primary/Secondary/Destructive buttons (collapsing to 1px and swapping to the top edge on press).
->
-> Primary amber (`bg/status/warning` / `button/primary/bg-default`, both yellow-400) is reserved for the single dominant call-to-action per view. Status colours follow the pattern: `bg/status/{role}-light` with `text/status/{role}` for inline content, `bg/status/{role}-dark` for filled selection controls. Disabled is universal: `opacity: 0.5`.
->
-> Default body text is 14px (`font/size/s`). Numbers use `medium` weight.
+- **Stale button tokens in CSS.** The button component tokens in the
+  upstream `colors_and_type.css` file are flagged as out of date
+  relative to the actual rendered buttons (specifically the secondary
+  hover and disabled states). The values documented in Components
+  reflect actual rendered behavior, not the stale CSS tokens.
 
-### Example component prompts
+### Out of Scope
 
-- *"Generate a Primary button: 40px tall, padding 0/12/0/12, fill `button/primary/bg-default` (yellow-400), 1px `border/primary` outline with 2px bottom rail, 4px radius, `text/primary` label in medium weight. Hover: fill `button/primary/bg-hover` (yellow-500). Pressed: swap to 2px top, 1px bottom rail."*
-
-- *"Build a Toast: white surface, 8px radius, `shadow-xl`, status-tinted icon and accent for `Variant: success`. Wrapper has 32/32/0/0 outer padding (positioning offset for top-right placement - keep). Show title in `text/primary` medium, description in `text/secondary` regular."*
-
-- *"Compose a Slideover: right-edge sheet, full height, `max-w-md`, `bg/white` surface, `bg/overlay/dark` backdrop behind. Header at top with 480×68 frame, bottom divider in `border/lighter`. Body slot is scrollable. Footer at bottom with top divider, holds 1-2 buttons."*
-
-- *"Generate a stacked list: `.listitem` rows in a column, each 80px tall with 18/24/18/24 padding, 12 gap, `bg/white` fill, bottom border in `border/lighter`. Each row: avatar (`spacing/4` gap), main content in `text/primary` 14px medium, supporting text in `text/secondary` 12px regular. Hover: fill changes to `bg/neutral`."*
-
-- *"Build an Alert: variant `success`, layout horizontal. Fill `bg/status/success-lighter`, 1px stroke `border/status/success`, 6px radius, 12/12/12/12 padding, 8 gap. Title and description both in `text/status/success`. Icon left, optional close right."*
-
-### Iteration guide
-
-1. Every interactive control gets the **outlined-control treatment**. If the component doesn't have a 1px black outline, it's probably not a Phorest control.
-2. Status hovers always step 200 (green-600 → green-800), never 100.
-3. Filled status controls (checkbox, radio, toggle, destructive button) use the `-dark` stop of the bg/status family. Inline status content (alerts, badges) uses `-light` with `text/status/{role}`.
-4. `radius/sm` (4px) is the control radius. `radius/md` (6px) is the card radius. `radius/lg` (8px) is the floating-surface radius. `radius/full` is for pills and circles.
-5. Disabled is `opacity: 0.5`, applied uniformly. Don't create disabled-specific colours.
-6. Tabs and Secondary nav items inherit the outlined-control treatment in their selected/hover states. Treat them as buttons-in-context.
-7. Compose pages with `bg/neutral-light` page backgrounds and `bg/white` card surfaces. Use `bg/neutral` for hover states on white surfaces.
-8. **Always check the token-to-Tailwind mapping table in section 7 before writing a Tailwind class.** `radius/sm` is `rounded`, not `rounded-sm`. `spacing/3` is `gap-2`, not `gap-3`.
-9. **Use real Heroicons SVGs via the CDN listed in section 4b.** Do not use emoji or placeholder shapes.
-
-### Worked example: full screen composition
-
-This is what good looks like for a typical Phorest screen. Use as a structural reference for composing pages, not as a copy-paste template.
-
-**Scene**: Today's appointment list, with two rows multi-selected. Three-column shell: global Sidebar (left), Secondary nav (middle), main content (right). Actionbar sticky at bottom when items are selected.
-
-**Page structure (in order, top to bottom, left to right):**
-
-1. **Global Sidebar** (220px wide, full height, dark sky-900 surface)
-   - Logo at top (24px tall, white)
-   - 8-12 nav items, each is a `.sidebarParts-Item`: 8/12/8/12 padding, `radius/lg` (8px) corners, gap 12, icon (24px) + label (14px medium)
-   - Selected item: `sidebar/item/bg-selected` (white fill), sky-900 text
-   - Default items: `sidebar/item/bg-default-on-light` (white at 20% opacity), white text
-   - Profile/settings cluster at bottom (`mt-auto`)
-
-2. **Secondary navigation** (240px wide, full height, white surface, `border/light` right edge)
-   - Section header: `.secondaryNavParts-SectionHeader`, 8/16/8/16 padding, 12px uppercase tracking-wide font-medium text-tertiary
-   - Items: `.secondaryNavParts-Item`, h-10, 0/16/0/16 padding, `radius/sm` (4px = Tailwind `rounded`)
-   - Default item: transparent fill, sky-900 text/icon
-   - Pressed item: sky-900 fill, white text/icon (the active route)
-   - Hover: sky-50 fill + 2px bottom rail
-
-3. **Main content** (flex-1, scrollable, `bg/neutral-light` background)
-   - Page header: white surface, 32/24/32/24 padding, `border/lighter` bottom edge
-     - Title: 24px bold (font/size/2xl)
-     - Subtitle: gray-500, 16px regular (font/size/m)
-     - Action buttons cluster on the right (Secondary "Export" + Primary "+ New appointment")
-   - Tabs strip: underline pattern, `bg/overlay/light` surface, `border/light` bottom edge
-   - List header: `.listheader`, gray-50 fill, 6/24/6/24 padding, 12px uppercase tracking-wide font-medium text-secondary
-   - List body: stack of `.listitem` rows on white, each row 80px tall with `border/lighter` bottom divider
-
-4. **Actionbar** (sticky bottom, appears on multi-select, 58px tall, `bg/banner` (yellow-400) fill, 16/12/16/12 padding)
-   - Left: selection count in `text/primary` medium
-   - Right: action buttons cluster
-   - **Button choice inside Actionbar**: the yellow Actionbar surface conflicts with a yellow Primary button. Use **Secondary** (white) buttons for actions inside the Actionbar. Reserve Destructive (red) for genuinely destructive actions. The "confirm" / dominant action uses the Secondary treatment here, not Primary.
-
-**Composition rhythm rules:**
-
-- Page background is **`bg/neutral-light`** (gray-50). Surfaces that hold content (headers, list bodies, cards) are **`bg/white`**.
-- Section dividers between major regions use `border/lighter` (gray-100), 1px, bottom-only. No box borders.
-- Section internal padding: 24px horizontal. Vertical padding scales with content density (16px in dense list rows, 24px in headers, 32px between unrelated regions).
-- Avatar in list rows: 40px circle, gray-200 fill, gray-900 initials. No name-derived colouring.
-- Numbers (counts, times, money) right-align where stacked, `medium` weight.
-
-**Reference HTML skeleton** (Tailwind, no inline styles where avoidable):
-
-```html
-<div class="flex h-screen">
-  <!-- Sidebar -->
-  <aside class="w-[220px] bg-sky-900 text-white flex flex-col p-2 gap-2">
-    <div class="h-16 flex items-center px-3 font-bold">phorest</div>
-    <a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-white text-sky-900 font-medium">
-      <svg class="w-6 h-6" ...><!-- heroicon: calendar --></svg>
-      Appointments
-    </a>
-    <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-white" style="background:rgba(255,255,255,0.20)">
-      <svg class="w-6 h-6" ...><!-- heroicon: users --></svg>
-      Clients
-    </a>
-    <!-- ... more items ... -->
-  </aside>
-
-  <!-- Secondary nav -->
-  <nav class="w-[240px] bg-white border-r border-gray-400 px-5 py-4 flex flex-col gap-2">
-    <div class="px-4 py-2 text-xs uppercase tracking-wide font-medium text-gray-400">Bookings</div>
-    <a class="flex items-center gap-2 px-4 h-10 rounded bg-sky-900 text-white font-medium">
-      <svg class="w-6 h-6" stroke="currentColor" ...><!-- heroicon --></svg>
-      Today's appointments
-    </a>
-    <!-- ... more items ... -->
-  </nav>
-
-  <!-- Main -->
-  <main class="flex-1 overflow-y-auto bg-gray-50">
-    <header class="bg-white px-6 py-6 border-b border-gray-100 flex items-center justify-between">
-      <div>
-        <h1 class="text-2xl font-bold">Today's appointments</h1>
-        <p class="text-gray-500 mt-1">Monday, May 18 - 24 bookings</p>
-      </div>
-      <div class="flex items-center gap-3">
-        <button class="bg-white px-3 h-10 rounded font-medium" style="border:1px solid #000;border-bottom-width:2px">Export</button>
-        <button class="px-3 h-10 rounded font-medium flex items-center gap-2" style="background:#fbbf24;border:1px solid #000;border-bottom-width:2px">
-          <svg class="w-5 h-5" ...><!-- heroicon: plus --></svg>
-          New appointment
-        </button>
-      </div>
-    </header>
-
-    <!-- Tabs (underline), list, etc. -->
-
-    <!-- List body -->
-    <div class="bg-white">
-      <!-- Selected row -->
-      <div class="flex items-center gap-3 px-6 py-[18px] border-b border-gray-100 bg-gray-100">
-        <div class="w-5 h-5 rounded flex items-center justify-center" style="background:#059669">
-          <svg class="w-3 h-3 text-white" ...><!-- heroicon: check --></svg>
-        </div>
-        <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-medium text-gray-900">SM</div>
-        <div class="flex-1">
-          <div class="font-medium">Sarah Miller</div>
-          <div class="text-xs text-gray-500 mt-0.5">Hair cut & colour - 90 min - with Anna</div>
-        </div>
-        <span class="px-2 py-0.5 rounded-full text-xs font-medium" style="background:#d1fae5;color:#065f46">Confirmed</span>
-        <div class="font-medium w-16 text-right">9:00</div>
-      </div>
-      <!-- ... more rows ... -->
-    </div>
-  </main>
-</div>
-
-<!-- Actionbar -->
-<div class="fixed bottom-0 left-[460px] right-0 px-3 py-4 flex items-center gap-3" style="background:#fbbf24">
-  <span class="font-medium">2 appointments selected</span>
-  <div class="ml-auto flex items-center gap-2">
-    <!-- Tertiary - uniform 1px gray-400 -->
-    <button class="bg-transparent px-3 h-10 rounded font-medium" style="border:1px solid #9ca3af">Cancel</button>
-    <!-- Secondary - white surface with rail. The dominant action lives here, not in Primary,
-         because Primary's yellow would clash with the Actionbar's yellow surface. -->
-    <button class="bg-white px-3 h-10 rounded font-medium" style="border:1px solid #000;border-bottom-width:2px">Reschedule</button>
-    <button class="bg-white px-3 h-10 rounded font-medium" style="border:1px solid #000;border-bottom-width:2px">Confirm</button>
-    <!-- Destructive - red-600 fill -->
-    <button class="px-3 h-10 rounded font-medium text-white" style="background:#dc2626;border:1px solid #000;border-bottom-width:2px">No-show</button>
-  </div>
-</div>
-```
-
-**What this example teaches the agent (and is hard to learn from component specs alone):**
-
-- The default page background is `bg/neutral-light` (gray-50), with white surfaces stacked on top.
-- The page header is its own white surface with a thin bottom divider, not a card.
-- The Sidebar and Secondary nav are full-bleed (no rounded corners on the panels themselves).
-- List rows stack flat against each other with bottom-only dividers, not as separate cards.
-- **Inside the Actionbar, the button variant choice flips**: Secondary is the dominant action because Primary (yellow) would lose contrast on the yellow Actionbar surface.
-- Numbers (times, counts) are right-aligned in a fixed-width slot.
-- Avatars use neutral gray fills by default; no name-derived colours.
-
----
-
-## 12. Source of truth
-
-- **Figma file** (authoritative): `https://www.figma.com/design/z3NnAwMyxonMiZUqyrzW8h/Phorest-Design-System`
-- **Variable collections**: Primitives (Tailwind v3 scale, 211 vars), Semantic (the binding layer, 57 vars), Components (component-specific tokens, 35 vars)
-- **In-app styleguide**: `https://my-dev.phorest.com/styleguide` (production reference, may lag Figma)
-
-When this document and Figma disagree, Figma wins. When Figma and the styleguide disagree, Figma wins.
-
-Components not in section 5 are pre-audit or work-in-progress. Do not generate them. The current "do not generate yet" list: Cards, Stepper, Combobox, IconButton, Modal (generic primitive), Select / form-field dropdown, Templates, Appointments compositions.
+- **Marketing surfaces.** Phorest's marketing website uses Gilroy as a
+  display face and follows a different visual register than product UI.
+  Out of scope for this DESIGN.md.
+- **Phorest Go (mobile companion).** A separate product surface with
+  its own design language. Out of scope.
+- **Dark theme.** Phorest is light-theme only. No dark variants exist.
